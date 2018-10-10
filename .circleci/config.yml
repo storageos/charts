@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+
+      - run: mkdir -p workspace/packages
+      - run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash && helm init -c
+      - run: helm package stable/* -d workspace/packages/
+      - run: helm repo index workspace/packages/ --url https://storage.googleapis.com/storageos-charts-testing
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - packages
+
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
+      - run:
+          name: Store Service Account
+          command: echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/gcloud-service-key.json
+      - run: |
+          gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+          gcloud config set project ${GOOGLE_PROJECT_ID}
+          gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - run: gsutil cp /tmp/workspace/packages/* gs://storageos-charts-testing
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
