@@ -7,9 +7,12 @@ jobs:
       - checkout
 
       - run: mkdir -p workspace/packages
+      # Install the initialize helm in client-only mode (no tiller).
       - run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash && helm init -c
+      # Pack all the charts and move to the shared workspace. This shared
+      # workspace is later mounted and used by the deploy job.
       - run: helm package stable/* -d workspace/packages/
-      - run: helm repo index workspace/packages/ --url https://storage.googleapis.com/storageos-charts-testing
+      - run: helm repo index workspace/packages/ --url ${REPO_URL}
       - persist_to_workspace:
           root: workspace
           paths:
@@ -29,7 +32,7 @@ jobs:
           gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
           gcloud config set project ${GOOGLE_PROJECT_ID}
           gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-      - run: gsutil cp /tmp/workspace/packages/* gs://storageos-charts-testing
+      - run: gsutil cp /tmp/workspace/packages/* ${BUCKET_ADDRESS}
 
 workflows:
   version: 2
