@@ -7,28 +7,30 @@ wherever they move in the cluster.
 
 Features such as replication, encryption and caching help protect data and maximise performance.
 
+This chart installs a StorageOS Cluster Operator which helps deploy and
+configure a StorageOS cluster on kubernetes.
 
 ## Prerequisites
 
-- Kubernetes 1.8+ with Beta APIs enabled
-- Kubernetes must be configured to allow:
+- Kubernetes 1.9+.
+- Kubernetes must be configured to allow (configured by default in 1.10+):
     - Privileged mode containers (enabled by default)
     - Feature gate: MountPropagation=true.  This can be done by appending `--feature-gates MountPropagation=true` to the
       kube-apiserver and kubelet services.
 
-Refer to the [StorageOS prerequisites docs](https://docs.storageos.com/docs/install/prerequisites/) for more information.
+Refer to the [StorageOS prerequisites docs](https://docs.storageos.com/docs/prerequisites/overview) for more information.
 
 
 ## Installing the chart
 
 ```console
-$ git clone https://github.com/storageos/storageoscluster-operator-helm-chart.git
-$ cd storageoscluster-operator-helm-chart
-$ helm install --namespace storageos-operator --name my-release .
+# Add storageos charts repo.
+$ helm add repo storageos https://storage.googleapis.com/storageos-charts
+# Install the chart in a namespace.
+$ helm install storageos/storageoscluster-operator --namespace storageos-operator
 ```
 
-This will install the StorageOSCluster operator with release name `my-release`
-in `storageos-operator` namespace.
+This will install the StorageOSCluster operator in `storageos-operator` namespace.
 
 > **Tip**: List all releases using `helm list`
 
@@ -147,10 +149,10 @@ would delete the custom resource and the cluster.
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `my-release` deployment:
+To uninstall/delete the storageos cluster operator deployment:
 
 ```console
-$ helm delete --purge my-release
+$ helm delete --purge <release-name>
 ```
 
 
