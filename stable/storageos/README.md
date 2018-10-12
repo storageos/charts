@@ -22,9 +22,9 @@ Refer to the [StorageOS prerequisites docs](https://docs.storageos.com/docs/inst
 ## TL;DR
 
 ```console
-$ git clone https://github.com/storageos/helm-chart.git storageos
-$ cd storageos
-$ helm install .
+# Add storageos charts repo.
+$ helm add repo storageos https://storage.googleapis.com/storageos-charts
+$ helm install storageos/storageos
 
 # Follow the instructions printed by helm install to update the link between Kubernetes and StorageOS. They look like:
 $ ClusterIP=$(kubectl get svc/storageos --namespace storageos -o custom-columns=IP:spec.clusterIP --no-headers=true)
@@ -36,10 +36,10 @@ $ kubectl patch secret/storageos-api --namespace storageos --patch "{\"data\":{\
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
+To install the chart:
 
 ```console
-$ helm install --name my-release .
+$ helm install storageos/storageos
 ```
 
 > For more than one node clusters, the cluster.join variable must be set.
@@ -62,10 +62,10 @@ $ kubectl patch secret/storageos-api --namespace storageos --patch "{\"data\":{\
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `my-release` deployment:
+To uninstall/delete the storageos deployment:
 
 ```console
-$ helm delete --purge my-release
+$ helm delete --purge <release-name>
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -79,17 +79,17 @@ id and/or hostname(s)/IP-address(es) of cluster nodes. For helm options the comm
 Examples:
 
 ```console
-$ helm install . --name my-release --set cluster.join=node01
+$ helm install storageos/storageos --set cluster.join=node01
 ```
 
 ```console
 $ storageos cluster create
 61e476d0-5905-4be8-af33-d5109784e3d3
-$ helm install . --name my-release --set cluster.join=61e476d0-5905-4be8-af33-d5109784e3d3
+$ helm install storageos/storageos --set cluster.join=61e476d0-5905-4be8-af33-d5109784e3d3
 ```
 
 ```console
-$ helm install . --name my-release --set cluster.join="61e476d0-5905-4be8-af33-d5109784e3d3\,node01"
+$ helm install storageos/storageos --set cluster.join="61e476d0-5905-4be8-af33-d5109784e3d3\,node01"
 ```
 
 The first item in the list can be a cluster id as above, or a hostname or ip address of a single node in the cluster.
@@ -112,7 +112,7 @@ Parameter | Description | Default
 --------- | ----------- | -------
 `cluster.join` | The cluster join string.  See [cluster discovery](https://docs.storageos.com/docs/install/prerequisites/clusterdiscovery) documentation for details.
 `image.repository` | StorageOS container image repository | `storageos/node`
-`image.tag` | StorageOS container image tag | `1.0.0-rc2`
+`image.tag` | StorageOS container image tag | `1.0.0-rc5`
 `image.pullPolicy` | StorageOS container image pull policy | `IfNotPresent`
 `initContainer.repository` | StorageOS init container image repository | `storageos/init`
 `initContainer.tag` | StorageOS init container image tag | `0.1`
@@ -143,14 +143,14 @@ Parameter | Description | Default
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```console
-$ helm install . --name my-release \
+$ helm install storageos/storageos \
     --set cluster.join="74e8b44d-b1df-11e7-b0b3-42010a9a00b2\,node01"
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install . --name my-release -f values.yaml
+$ helm install storageos/storageos -f values.yaml
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
