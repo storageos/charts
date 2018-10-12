@@ -1,0 +1,21 @@
+# Default values for storageoscluster-operator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: storageos/storageoscluster-operator
+  tag: v0.0.1
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: storageoscluster-operator-sa
+
+cleanup:
+  enable: false
+  manager:
+    repository: darkowlzz/daemonset-job
+    tag: v0.0.7
+  terminator:
+    repository: darkowlzz/job-terminator
+    tag: v0.0.14
