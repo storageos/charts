@@ -2,37 +2,22 @@ version: 2
 jobs:
   build:
     docker:
-      - image: google/cloud-sdk
+      - image: gcr.io/kubernetes-charts-ci/test-image:v2.0.5
     steps:
       - checkout
-
-      - run: mkdir -p workspace/packages
-      # Install the initialize helm in client-only mode (no tiller).
-      - run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash && helm init -c
-      # Pack all the charts and move to the shared workspace. This shared
-      # workspace is later mounted and used by the deploy job.
-      - run: helm package stable/* -d workspace/packages/
-      - run: helm repo index workspace/packages/ --url ${REPO_URL}
-      - persist_to_workspace:
-          root: workspace
-          paths:
-            - packages
+      - run:
+          name: lint
+          command: |
+            git remote add storageos https://github.com/storageos/charts
+            git fetch storageos master
+            chart_test.sh --config test/.testenv --no-install
 
   deploy:
     docker:
-      - image: google/cloud-sdk
+      - image: gcr.io/kubernetes-charts-ci/test-image:v2.0.5
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
-
-      - run:
-          name: Store Service Account
-          command: echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/gcloud-service-key.json
-      - run: |
-          gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-          gcloud config set project ${GOOGLE_PROJECT_ID}
-          gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-      - run: gsutil cp /tmp/workspace/packages/* ${BUCKET_ADDRESS}
+      - checkout
+      - run: test/repo-sync.sh
 
 workflows:
   version: 2

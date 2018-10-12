@@ -1,0 +1,20 @@
+# The name of the Git remote
+REMOTE=storageos
+
+# The name of the Git target branch
+TARGET_BRANCH=master
+
+# Chart directories separated by a space
+CHART_DIRS=(
+    stable
+)
+
+# Charts that should be skipped
+EXCLUDED_CHARTS=(
+)
+
+# Additional chart repos to add (<name>=<url>), separated by a space
+CHART_REPOS=(
+)
+
+TIMEOUT=600
