@@ -13,17 +13,17 @@ initContainer:
 
 csiDriverRegistrar:
   repository: quay.io/k8scsi/driver-registrar
-  tag: v0.2.0
+  tag: v0.4.0
   pullPolicy: IfNotPresent
 
 csiExternalProvisioner:
   repository: quay.io/k8scsi/csi-provisioner
-  tag: v0.3.0
+  tag: v0.4.0
   pullPolicy: Always
 
 csiExternalAttacher:
   repository: quay.io/k8scsi/csi-attacher
-  tag: v0.3.0
+  tag: v0.4.0
   pullPolicy: Always
 
 rbacEnabled: true
