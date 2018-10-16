@@ -19,22 +19,22 @@ parameters:
   # CSI credentials config.
   {{- if .Values.csi.provisionCreds.enable }}
   csiProvisionerSecretName: {{ .Values.csi.provisionCreds.secretName }}
-  csiProvisionerSecretNamespace: {{ .Values.namespace }}
+  csiProvisionerSecretNamespace: {{ .Release.Namespace }}
   {{- end }}
 
   {{- if .Values.csi.controllerPublishCreds.enable }}
   csiControllerPublishSecretName: {{ .Values.csi.controllerPublishCreds.secretName }}
-  csiControllerPublishSecretNamespace: {{ .Values.namespace }}
+  csiControllerPublishSecretNamespace: {{ .Release.Namespace }}
   {{- end}}
 
   {{- if .Values.csi.nodeStageCreds.enable }}
   csiNodeStageSecretName: {{ .Values.csi.nodeStageCreds.secretName }}
-  csiNodeStageSecretNamespace: {{ .Values.namespace }}
+  csiNodeStageSecretNamespace: {{ .Release.Namespace }}
   {{- end }}
 
   {{- if .Values.csi.nodePublishCreds.enable }}
   csiNodePublishSecretName: {{ .Values.csi.nodePublishCreds.secretName }}
-  csiNodePublishSecretNamespace: {{ .Values.namespace }}
+  csiNodePublishSecretNamespace: {{ .Release.Namespace }}
   {{- end }}
 
 ---
@@ -81,7 +81,7 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: {{ template "storageos.fullname" . }}-daemonset-sa
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "storageos.name" . }}
     chart: {{ template "storageos.chart" . }}
@@ -103,7 +103,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ template "storageos.fullname" . }}-daemonset-sa
-    namespace: {{ .Values.namespace }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: driver-registrar-role
@@ -124,7 +124,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ template "storageos.fullname" . }}-daemonset-sa
-    namespace: {{ .Values.namespace }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: key-management-role
@@ -195,7 +195,7 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: {{ template "storageos.fullname" . }}-statefulset-sa
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "storageos.name" . }}
     chart: {{ template "storageos.chart" . }}
@@ -217,7 +217,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ template "storageos.fullname" . }}-statefulset-sa
-    namespace: {{ .Values.namespace }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: csi-provisioner-role
@@ -238,7 +238,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ template "storageos.fullname" . }}-statefulset-sa
-    namespace: {{ .Values.namespace }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: csi-attacher-role
@@ -259,7 +259,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ template "storageos.fullname" . }}-statefulset-sa
-    namespace: {{ .Values.namespace }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: key-management-role

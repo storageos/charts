@@ -4,7 +4,7 @@ kind: StatefulSet
 apiVersion: apps/v1beta1
 metadata:
   name: {{ template "storageos.fullname" . }}-statefulset
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "storageos.name" . }}
     chart: {{ template "storageos.chart" . }}
