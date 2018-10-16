@@ -22,7 +22,7 @@ Refer to the [StorageOS prerequisites docs](https://docs.storageos.com/docs/inst
 ```console
 # Add storageos charts repo.
 $ helm repo add storageos https://charts.storageos.com
-$ helm install storageos/storageos --set cluster.join=<join-token/node-ip> --set csi.enable=true
+$ helm install storageos/storageos --namespace storageos --set cluster.join=<join-token/node-ip> --set csi.enable=true
 ```
 
 ## Installing the Chart
@@ -30,7 +30,7 @@ $ helm install storageos/storageos --set cluster.join=<join-token/node-ip> --set
 To install the chart:
 
 ```console
-$ helm install storageos/storageos --set cluster.join=<join-token/node-ip> --set csi.enable=true
+$ helm install storageos/storageos --namespace storageos --set cluster.join=<join-token/node-ip> --set csi.enable=true
 ```
 
 The command deploys StorageOS on the Kubernetes cluster in the default configuration. The [configuration](#configuration)
@@ -57,17 +57,17 @@ id and/or hostname(s)/IP-address(es) of cluster nodes. For helm options the comm
 Examples:
 
 ```console
-$ helm install storageos/storageos --set cluster.join=node01 --set csi.enable=true
+$ helm install storageos/storageos --namespace storageos --set cluster.join=node01 --set csi.enable=true
 ```
 
 ```console
 $ storageos cluster create
 61e476d0-5905-4be8-af33-d5109784e3d3
-$ helm install storageos/storageos --set cluster.join=61e476d0-5905-4be8-af33-d5109784e3d3 --set csi.enable=true
+$ helm install storageos/storageos --namespace storageos --set cluster.join=61e476d0-5905-4be8-af33-d5109784e3d3 --set csi.enable=true
 ```
 
 ```console
-$ helm install storageos/storageos --set cluster.join="61e476d0-5905-4be8-af33-d5109784e3d3\,node01" --set csi.enable=true
+$ helm install storageos/storageos --namespace storageos --set cluster.join="61e476d0-5905-4be8-af33-d5109784e3d3\,node01" --set csi.enable=true
 ```
 
 The first item in the list can be a cluster id as above, or a hostname or ip address of a single node in the cluster.
@@ -134,14 +134,14 @@ Parameter | Description | Default
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```console
-$ helm install storageos/storageos \
+$ helm install storageos/storageos --namespace storageos \
     --set cluster.join="74e8b44d-b1df-11e7-b0b3-42010a9a00b2\,node01"
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install storageos/storageos -f values.yaml
+$ helm install storageos/storageos --namespace storageos -f values.yaml
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)

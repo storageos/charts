@@ -4,7 +4,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ template "storageos.fullname" $ }}
-  namespace: {{ $.Values.namespace }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     app: {{ template "storageos.name" $ }}
     chart: {{ template "storageos.chart" $ }}
