@@ -13,7 +13,7 @@ initContainer:
 
 csiDriverRegistrar:
   repository: quay.io/k8scsi/driver-registrar
-  tag: v0.4.0
+  tag: v0.4.1
   pullPolicy: IfNotPresent
 
 csiExternalProvisioner:
