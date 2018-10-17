@@ -5,6 +5,9 @@ env:
     - CHANGE_MINIKUBE_NONE_USER=true
     - K8S_VERSION="v1.10.0"
     - MINIKUBE_VERSION="v0.28.2"
+    - CHART_TESTING_IMAGE="gcr.io/kubernetes-charts-ci/chart-testing"
+    - CHART_TESTING_TAG="v1.1.0"
+    - CHARTS_REPO="https://github.com/storageos/charts"
 
 
 script:

@@ -2,6 +2,8 @@
 
 set -Eeuxo pipefail
 
+readonly REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel)}"
+
 enable_lio() {
     echo "Enable LIO"
     sudo apt -y update
@@ -12,6 +14,10 @@ enable_lio() {
 }
 
 run_minikube() {
+    echo "Install socat and util-linux"
+    sudo apt-get install -y socat util-linux
+    echo
+
     echo "Copy nsenter tool for Ubuntu 14.04 (current travisCI build VM version)"
     # shellcheck disable=SC2046
     sudo docker run --rm -v $(pwd):/target jpetazzo/nsenter
@@ -33,27 +39,47 @@ run_minikube() {
     echo
 }
 
-install_helm() {
-    # socat is required for helm client-tiller communication.
-    echo "Install socat and util-linux"
-    sudo apt-get update
-    sudo apt-get install -y socat util-linux
-    echo
-
-    echo "Install helm"
-    curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
-    kubectl -n kube-system create sa tiller
-    kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-    helm init --wait --service-account tiller
-    echo
+run_tillerless() {
+     # -- Work around for Tillerless Helm, till Helm v3 gets released -- #
+     echo "Install Tillerless Helm plugin..."
+     # shellcheck disable=SC2154
+     docker exec "$config_container_id" helm init --client-only
+     # shellcheck disable=SC2154
+     docker exec "$config_container_id" helm plugin install https://github.com/rimusz/helm-tiller
+     # shellcheck disable=SC2154
+     docker exec "$config_container_id" bash -c 'echo "Starting Tiller..."; helm tiller start-ci >/dev/null 2>&1 &'
+     # shellcheck disable=SC2154
+     docker exec "$config_container_id" bash -c 'echo "Waiting Tiller to launch on 44134..."; while ! nc -z localhost 44134; do sleep 1; done; echo "Tiller launched..."'
+     echo
 }
 
 main() {
     enable_lio
     run_minikube
-    install_helm
 
     echo "Ready for testing"
+
+    echo "Add git remote k8s ${CHARTS_REPO}"
+    git remote add storageos "${CHARTS_REPO}" &> /dev/null || true
+    git fetch storageos master
+    echo
+
+    local config_container_id
+    config_container_id=$(docker run -it -d -v "/home:/home" -v "$REPO_ROOT:/workdir" \
+        --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
+
+    # copy kubeconfig file
+    docker cp /home/travis/.kube "$config_container_id:/root/.kube"
+
+    # --- Work around for Tillerless Helm, till Helm v3 gets released --- #
+    run_tillerless
+    # shellcheck disable=SC2086
+    docker exec -e HELM_HOST=localhost:44134 "$config_container_id" chart_test.sh --no-lint --config /workdir/test/.testenv_minikube
+    # ------------------------------------------------------------------- #
+
+    ##### docker exec -e KUBECONFIG="/home/travis/.kube/config" "$config_container_id" chart_test.sh --no-lint --config /workdir/test/.testenv ${CHART_TESTING_ARGS}
+
+    echo "Done Testing!"
 }
 
 main
