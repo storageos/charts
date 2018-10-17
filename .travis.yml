@@ -9,6 +9,5 @@ env:
     - CHART_TESTING_TAG="v1.1.0"
     - CHARTS_REPO="https://github.com/storageos/charts"
 
-
 script:
     - ./test/e2e-minikube.sh

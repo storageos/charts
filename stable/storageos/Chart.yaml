@@ -1,5 +1,5 @@
 name: storageos
-version: 0.2.0
+version: 0.2.1
 description: Converged storage for containers
 appVersion: 1.0.0-rc5
 apiVersion: v1

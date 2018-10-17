@@ -31,11 +31,25 @@ run_minikube() {
     curl -Lo minikube https://github.com/kubernetes/minikube/releases/download/${MINIKUBE_VERSION}/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
     # TODO: remove the --bootstrapper flag once this issue is solved: https://github.com/kubernetes/minikube/issues/2704
     sudo minikube config set WantReportErrorPrompt false
-    sudo -E minikube start --vm-driver=none --cpus 2 --memory 2048 --bootstrapper=localkube --kubernetes-version=${K8S_VERSION} --extra-config=apiserver.Authorization.Mode=RBAC
+    sudo -E minikube start --vm-driver=none --cpus 2 --memory 4096 --bootstrapper=localkube --kubernetes-version=${K8S_VERSION} --extra-config=apiserver.Authorization.Mode=RBAC
+
+    echo "Enable add-ons..."
+    sudo minikube addons disable kube-dns
+    sudo minikube addons enable coredns
+    echo
+
     # Fix the kubectl context, as it's often stale.
     # - minikube update-context
     # Wait for Kubernetes to be up and ready.
     JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
+    echo
+
+    echo "Get cluster info..."
+    kubectl cluster-info
+    echo
+
+    echo "Create cluster admin..."
+    kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
     echo
 }
 
@@ -68,11 +82,15 @@ main() {
     config_container_id=$(docker run -it -d -v "/home:/home" -v "$REPO_ROOT:/workdir" \
         --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
 
+    # shellcheck disable=SC2064
+    trap "docker rm -f $config_container_id > /dev/null" EXIT
+
     # copy kubeconfig file
     docker cp /home/travis/.kube "$config_container_id:/root/.kube"
 
     # --- Work around for Tillerless Helm, till Helm v3 gets released --- #
     run_tillerless
+
     # shellcheck disable=SC2086
     docker exec -e HELM_HOST=localhost:44134 "$config_container_id" chart_test.sh --no-lint --config /workdir/test/.testenv_minikube
     # ------------------------------------------------------------------- #

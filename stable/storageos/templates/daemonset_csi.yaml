@@ -68,7 +68,6 @@ spec:
             # This is where kubelet.sock exists.
           - name: registrar-socket-dir
             mountPath: /var/lib/csi/sockets/
-          volumeMounts:
           - name: registration-dir
             mountPath: /registration
       - name: {{ .Chart.Name }}
