@@ -1,4 +1,6 @@
 # StorageOS Helm Charts
+[![Build Status](https://travis-ci.org/storageos/charts.svg?branch=master)](https://travis-ci.org/storageos/charts)
+[![CircleCI](https://circleci.com/gh/storageos/charts.svg?style=svg)](https://circleci.com/gh/storageos/charts)
 
 This repository hosts the official StorageOS Helm Charts.
 
