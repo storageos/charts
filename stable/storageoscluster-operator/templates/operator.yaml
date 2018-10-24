@@ -29,7 +29,7 @@ spec:
           - containerPort: 60000
             name: metrics
           command:
-          - storageoscluster-operator
+          - cluster-operator
           env:
             - name: WATCH_NAMESPACE
               valueFrom:
