@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: storageos/storageoscluster-operator
+  repository: storageos/cluster-operator
   tag: v0.0.1
   pullPolicy: IfNotPresent
 
