@@ -64,6 +64,11 @@ service:
   internalPort: 5705
 resources: {}
 
+# key-value store backend configuration.
+kvBackend:
+  address:
+  backend:
+
 ## Configure the ingress resource that allows you to access the
 ## StorageOS API endpoints. Set up the URL
 ## ref: http://kubernetes.io/docs/user-guide/ingress/

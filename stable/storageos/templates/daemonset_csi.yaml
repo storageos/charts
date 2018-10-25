@@ -192,6 +192,14 @@ spec:
               name: {{ .Values.csi.nodePublishCreds.secretName }}
               key: password
         {{- end }}
+        {{- if .Values.kvBackend.address }}
+        - name: KV_ADDR
+          value: {{ .Values.kvBackend.address }}
+        {{- end }}
+        {{- if .Values.kvBackend.backend }}
+        - name: KV_BACKEND
+          value: {{ .Values.kvBackend.backend }}
+        {{- end }}
         securityContext:
           privileged: true
           capabilities:

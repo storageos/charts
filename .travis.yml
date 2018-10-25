@@ -9,5 +9,8 @@ env:
     - CHART_TESTING_TAG="v1.1.0"
     - CHARTS_REPO="https://github.com/storageos/charts"
 
+before_install:
+    - docker run -d -p 2399:2399 quay.io/coreos/etcd:v3.3.10 /usr/local/bin/etcd -advertise-client-urls http://0.0.0.0:2399 -listen-client-urls http://0.0.0.0:2399
+
 script:
     - ./test/e2e-minikube.sh
