@@ -104,6 +104,14 @@ spec:
         - name: DEVICE_DIR
           value: {{ .Values.cluster.sharedDir }}/devices
         {{- end }}
+        {{- if .Values.kvBackend.address }}
+        - name: KV_ADDR
+          value: {{ .Values.kvBackend.address }}
+        {{- end }}
+        {{- if .Values.kvBackend.backend }}
+        - name: KV_BACKEND
+          value: {{ .Values.kvBackend.backend }}
+        {{- end }}
         volumeMounts:
           - name: fuse
             mountPath: /dev/fuse

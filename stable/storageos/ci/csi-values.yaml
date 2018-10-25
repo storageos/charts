@@ -21,3 +21,7 @@ csi:
     username: username4
     password: password4
     secretName: storageos-node-publish-creds
+
+kvBackend:
+  address: 127.0.0.1:2399
+  backend: etcd
