@@ -76,6 +76,23 @@ spec:
                 tls:
                   type: boolean
                 annotations: {}
+            cleanupAtDelete:
+              type: boolean
+            kvBackend:
+              properties:
+                address:
+                  type: string
+                backend:
+                  type: string
+            pause:
+              type: boolean
+            debug:
+              type: boolean
+            nodeSelectorTerms: {}
+            resources:
+              properties:
+                limits: {}
+                requests: {}
         status:
           properties:
             phase:
