@@ -36,4 +36,4 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: OPERATOR_NAME
-              value: "storageoscluster-operator"
+              value: "cluster-operator"
