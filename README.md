@@ -15,7 +15,7 @@ Add the StorageOS chart repo to Helm:
 
 ```
 helm repo add storageos https://charts.storageos.com
-help repo update
+helm repo update
 ```
 
 Run `helm search storageos` to list the available charts.
