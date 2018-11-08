@@ -29,7 +29,7 @@ $ helm install storageos/storageos --namespace storageos
 # Follow the instructions printed by helm install to update the link between Kubernetes and StorageOS. They look like:
 $ ClusterIP=$(kubectl get svc/storageos --namespace storageos -o custom-columns=IP:spec.clusterIP --no-headers=true)
 $ ApiAddress=$(echo -n "tcp://$ClusterIP:5705" | base64)
-$ kubectl patch secret/storageos-api --namespace storageos --patch "{\"data\":{\"apiAddress\": \"$ApiAddress\"}}"
+$ kubectl patch secret/storageos-api --patch "{\"data\":{\"apiAddress\": \"$ApiAddress\"}}"
 ```
 
 > For more than one node clusters, the cluster.join variable must be set.
