@@ -4,7 +4,7 @@
 
 ClusterIP=$(kubectl get svc/{{ .Values.service.name }} --namespace {{ .Release.Namespace }} -o custom-columns=IP:spec.clusterIP --no-headers=true)
 ApiAddress=$(echo -n "tcp://$ClusterIP:{{ .Values.service.externalPort }}" | base64)
-kubectl patch secret/{{ .Values.api.secretName }} --namespace {{ .Values.api.secretNamespace }} --patch "{\"data\": {\"apiAddress\": \"$ApiAddress\"}}"
+kubectl patch secret/{{ .Values.api.secretName }} --namespace {{ .Release.Namespace }} --patch "{\"data\": {\"apiAddress\": \"$ApiAddress\"}}"
 
 *) Unfortunately this is needed until the Kubernetes apiserver can use kube-dns to resolve service 
    dns names like {{ .Values.service.name }}.{{ .Release.Namespace }}.svc to the correct ClusterIP.

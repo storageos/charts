@@ -56,7 +56,6 @@ api:
   # updated later with the service ClusterIP which is not known at this stage.
   username: storageos
   password: storageos
-initSecretName: init-secret
 service:
   name: storageos
   type: ClusterIP

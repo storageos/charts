@@ -78,12 +78,12 @@ spec:
         - name: ADMIN_USERNAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.initSecretName }}
+              name: {{ .Values.api.secretName }}
               key: username
         - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.initSecretName }}
+              name: {{ .Values.api.secretName }}
               key: password
         {{- if .Values.cluster.join }}
         - name: JOIN

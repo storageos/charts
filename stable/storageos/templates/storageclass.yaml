@@ -14,7 +14,7 @@ parameters:
   pool: {{ .Values.storageclass.pool }}
   description: Kubernetes volume
   fsType: {{ .Values.storageclass.fsType }}
-  adminSecretNamespace: {{ .Values.api.secretNamespace }}
+  adminSecretNamespace: {{ .Release.namespace }}
   adminSecretName: {{ .Values.api.secretName }}
 
 {{- end }}
