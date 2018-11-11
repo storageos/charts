@@ -104,12 +104,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.api.secretName }}
-              key: username
+              key: apiUsername
         - name: ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.api.secretName }}
-              key: password
+              key: apiPassword
         {{- if .Values.cluster.join }}
         - name: JOIN
           value: {{ .Values.cluster.join }}

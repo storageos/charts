@@ -49,7 +49,6 @@ storageclass:
   fsType: ext4
 api:
   secretName: storageos-api
-  secretNamespace: storageos
   # secrets are namespace specific, create 1+N for every namespace.
   address: storageos:5705
   # address is used to generate the ApiAddress value in the secret. This
