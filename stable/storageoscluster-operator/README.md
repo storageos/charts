@@ -127,11 +127,6 @@ Parameter | Description | Default
 `image.repository` | StorageOSCluster container image repository | `storageos/storageoscluster-operator`
 `image.tag` | StorageOSCluster container image tag | `v0.0.1`
 `image.pullPolicy` | StorageOSCluster container image pull policy | `IfNotPresent`
-`cleanup.enable` | Enable StorageOS cleanup operator. This also requires setting `cleanupAtDelete: true` in cluster spec. | `false`
-`cleanup.manager.repository` | StorageOS cleanup operator manager container image repository | `darkowlzz/daemonset-job`
-`cleanup.manager.tag` | StorageOS cleanup operator manager container image tag | `v0.0.7`
-`cleanup.terminator.repository` | StorageOS cleanup terminator contaimer image repository | `darkowlzz/job-terminator`
-`cleanup.terminator.tag` | StorageOS cleanup terminator container image tag | `v0.0.14`
 
 
 ## Deleting a StorageOS Cluster

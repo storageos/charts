@@ -4,18 +4,9 @@
 
 image:
   repository: storageos/cluster-operator
-  tag: v0.0.1
+  tag: v0.0.3
   pullPolicy: IfNotPresent
 
 serviceAccount:
   create: true
   name: storageoscluster-operator-sa
-
-cleanup:
-  enable: false
-  manager:
-    repository: darkowlzz/daemonset-job
-    tag: v0.0.7
-  terminator:
-    repository: darkowlzz/job-terminator
-    tag: v0.0.14
