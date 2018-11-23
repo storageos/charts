@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: gcr.io/kubernetes-charts-ci/test-image:v2.0.5
+      - image: gcr.io/kubernetes-charts-ci/test-image:v3.0.0
     steps:
       - checkout
       - run:
@@ -10,7 +10,7 @@ jobs:
           command: |
             git remote add storageos https://github.com/storageos/charts
             git fetch storageos master
-            chart_test.sh --config test/.testenv --no-install
+            ct lint --config test/ct.yaml
 
   deploy:
     docker:

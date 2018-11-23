@@ -1,0 +1,7 @@
+remote: storageos
+target-branch: master
+chart-dirs:
+  - stable
+# excluded-charts:
+#   - common
+helm-extra-args: --timeout 120
