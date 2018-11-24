@@ -91,7 +91,7 @@ main() {
     run_tillerless
 
     # shellcheck disable=SC2086
-    docker exec -e HELM_HOST=127.0.0.1:44134 "$config_container_id" ct install --config /workdir/test/ct.yaml
+    docker exec -e HELM_HOST=127.0.0.1:44134 "$config_container_id" ct install --debug --config /workdir/test/ct.yaml
     # ------------------------------------------------------------------- #
 
     ##### docker exec "$config_container_id" ct install ${CHART_TESTING_ARGS} --config /workdir/test/ct.yaml
