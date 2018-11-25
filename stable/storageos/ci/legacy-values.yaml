@@ -12,3 +12,6 @@ ingress:
   - name: storageos.local-tls
     key: dGxza2V5Cg==
     certificate: Y2VydGlmaWNhdGUK
+
+storageclass:
+  name: fast2

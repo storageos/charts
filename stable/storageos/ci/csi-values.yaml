@@ -25,3 +25,6 @@ csi:
 kvBackend:
   address: 127.0.0.1:2399
   backend: etcd
+
+storageclass:
+  name: fast1
