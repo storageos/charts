@@ -1,8 +1,11 @@
 storageoscluster-operator deployed.
 
-Deploy storageos cluster by creating a custom resource:
+Deploy a StorageOS cluster by creating a custom StorageOSCluster resource:
 
-1. Create a secret with storageos cluster secrets:
+1. Create a secret containing StorageOS cluster credentials. This secret
+contains the API username and password that will be used to authenticate to the
+StorageOS cluster. Base64 encode the username and password that you want to use
+for your StorageOS cluster.
 
 apiVersion: v1
 kind: Secret
@@ -17,7 +20,9 @@ data:
   apiUsername: c3RvcmFnZW9z
   apiPassword: c3RvcmFnZW9z
 
-2. Refer this secret in a StorageOS custom resource and deploy the cluster.
+2. Create a StorageOS custom resource that references the secret created
+above (storageos-api in the above example). When the resource is created, the
+cluster will be deployed.
 
 apiVersion: storageos.com/v1alpha1
 kind: StorageOSCluster
