@@ -52,11 +52,11 @@ spec:
           - "--mode=node-register"
           - "--driver-requires-attachment=true"
           - "--pod-info-mount-version=v1"
-          - "--kubelet-registration-path=/var/lib/kubelet/plugins/storageos/csi.sock"
+          - "--kubelet-registration-path=/var/lib/kubelet/plugins_registry/storageos/csi.sock"
         env:
           - name: ADDRESS
             value: /csi/csi.sock # plugin-dir is mounted at /csi
-            # value: unix://var/lib/kubelet/plugins/storageos/csi.sock
+            # value: unix://var/lib/kubelet/plugins_registry/storageos/csi.sock
           - name: KUBE_NODE_NAME
             valueFrom:
               fieldRef:
@@ -129,8 +129,10 @@ spec:
         - name: DEVICE_DIR
           value: {{ .Values.cluster.sharedDir }}/devices
         {{- end }}
+        - name: CSI_VERSION
+          value: {{ .Values.csi.version }}
         - name: CSI_ENDPOINT
-          value: unix://var/lib/kubelet/plugins/storageos/csi.sock
+          value: unix://var/lib/kubelet/plugins_registry/storageos/csi.sock
         # CSI credentials config.
         {{- if .Values.csi.provisionCreds.enable }}
         - name: CSI_REQUIRE_CREDS_CREATE_VOL
@@ -211,7 +213,7 @@ spec:
             mountPath: /var/lib/kubelet
             mountPropagation: "Bidirectional"
           - name: plugin-dir
-            mountPath: /var/lib/kubelet/plugins/storageos/
+            mountPath: /var/lib/kubelet/plugins_registry/storageos/
           - name: device-dir
             mountPath: /dev
           - name: fuse
@@ -236,7 +238,7 @@ spec:
           type: DirectoryOrCreate
       - name: registration-dir
         hostPath:
-          path: /var/lib/kubelet/plugins
+          path: /var/lib/kubelet/plugins_registry
           type: Directory
       - name: kubelet-dir
         hostPath:
@@ -244,7 +246,7 @@ spec:
           type: Directory
       - name: plugin-dir
         hostPath:
-          path: /var/lib/kubelet/plugins/storageos/
+          path: /var/lib/kubelet/plugins_registry/storageos/
           type: DirectoryOrCreate
       - name: device-dir
         hostPath:

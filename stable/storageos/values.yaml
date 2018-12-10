@@ -13,17 +13,17 @@ initContainer:
 
 csiDriverRegistrar:
   repository: quay.io/k8scsi/driver-registrar
-  tag: v0.4.1
+  tag: v1.0-canary
   pullPolicy: IfNotPresent
 
 csiExternalProvisioner:
   repository: quay.io/k8scsi/csi-provisioner
-  tag: v0.4.0
+  tag: v1.0.0
   pullPolicy: Always
 
 csiExternalAttacher:
   repository: quay.io/k8scsi/csi-attacher
-  tag: v0.4.0
+  tag: v1.0.0
   pullPolicy: Always
 
 rbacEnabled: true
@@ -115,6 +115,7 @@ ingress:
 
 csi:
   enable: false
+  version: v1
   # provisionCreds are credentials for volume create and delete operations.
   provisionCreds:
     enable: false
