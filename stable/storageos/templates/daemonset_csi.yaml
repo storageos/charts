@@ -70,6 +70,18 @@ spec:
             mountPath: /var/lib/csi/sockets/
           - name: registration-dir
             mountPath: /registration
+      - name: csi-liveness-probe
+        image: "{{ .Values.csiLivenessProbe.repository }}:{{ .Values.csiLivenessProbe.tag }}"
+        imagePullPolicy: {{ .Values.csiLivenessProbe.pullPolicy }}
+        args:
+          - "--csi-address=$(ADDRESS)"
+          - "--connection-timeout=3s"
+        env:
+          - name: ADDRESS
+            value: /csi/csi.sock
+        volumeMounts:
+          - name: plugin-dir
+            mountPath: /csi
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}

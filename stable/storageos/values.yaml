@@ -19,12 +19,17 @@ csiDriverRegistrar:
 csiExternalProvisioner:
   repository: quay.io/k8scsi/csi-provisioner
   tag: v1.0.0
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 csiExternalAttacher:
   repository: quay.io/k8scsi/csi-attacher
   tag: v1.0.0
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
+
+csiLivenessProbe:
+  repository: quay.io/k8scsi/livenessprobe
+  tag: v1.0-canary
+  pullPolicy: IfNotPresent
 
 rbacEnabled: true
 
