@@ -43,15 +43,12 @@ spec:
             add:
             - SYS_ADMIN
       containers:
-      - name: csi-driver-registrar
-        image: "{{ .Values.csiDriverRegistrar.repository }}:{{ .Values.csiDriverRegistrar.tag }}"
-        imagePullPolicy: {{ .Values.csiDriverRegistrar.pullPolicy }}
+      - name: csi-node-driver-registrar
+        image: "{{ .Values.csiNodeDriverRegistrar.repository }}:{{ .Values.csiNodeDriverRegistrar.tag }}"
+        imagePullPolicy: {{ .Values.csiNodeDriverRegistrar.pullPolicy }}
         args:
           - "--v=5"
           - "--csi-address=$(ADDRESS)"
-          - "--mode=node-register"
-          - "--driver-requires-attachment=true"
-          - "--pod-info-mount-version=v1"
           - "--kubelet-registration-path=/var/lib/kubelet/plugins_registry/storageos/csi.sock"
         env:
           - name: ADDRESS

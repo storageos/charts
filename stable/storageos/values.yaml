@@ -11,24 +11,29 @@ initContainer:
   tag: 0.1
   pullPolicy: IfNotPresent
 
-csiDriverRegistrar:
-  repository: quay.io/k8scsi/driver-registrar
-  tag: v1.0-canary
+csiClusterDriverRegistrar:
+  repository: quay.io/k8scsi/csi-cluster-driver-registrar
+  tag: v1.0.1
+  pullPolicy: IfNotPresent
+
+csiNodeDriverRegistrar:
+  repository: quay.io/k8scsi/csi-node-driver-registrar
+  tag: v1.0.1
   pullPolicy: IfNotPresent
 
 csiExternalProvisioner:
   repository: quay.io/k8scsi/csi-provisioner
-  tag: v1.0.0
+  tag: v1.0.1
   pullPolicy: IfNotPresent
 
 csiExternalAttacher:
   repository: quay.io/k8scsi/csi-attacher
-  tag: v1.0.0
+  tag: v1.0.1
   pullPolicy: IfNotPresent
 
 csiLivenessProbe:
   repository: quay.io/k8scsi/livenessprobe
-  tag: v1.0-canary
+  tag: v1.0.1
   pullPolicy: IfNotPresent
 
 rbacEnabled: true
