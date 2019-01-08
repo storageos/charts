@@ -95,14 +95,17 @@ Parameter | Description | Default
 `initContainer.repository` | StorageOS init container image repository | `storageos/init`
 `initContainer.tag` | StorageOS init container image tag | `0.1`
 `initContainer.pullPolicy` | StorageOS init container image pull policy | `IfNotPresent`
-`csiDriverRegistrar.repository` | CSI Driver Registrar container image repository | `quay.io/k8scsi/driver-registrar`
-`csiDriverRegistrar.tag` | CSI Driver Registrar container image tag | `v0.2.0`
-`csiDriverRegistrar.pullPolicy` | CSI Driver Registrar container image pull policy | `IfNotPresent`
+`csiClusterDriverRegistrar.repository` | CSI Cluster Driver Registrar container image repository | `quay.io/k8scsi/csi-cluster-driver-registrar`
+`csiClusterDriverRegistrar.tag` | CSI Cluster Driver Registrar container image tag | `v1.0.1`
+`csiClusterDriverRegistrar.pullPolicy` | CSI Cluster Driver Registrar container image pull policy | `IfNotPresent`
+`csiNodeDriverRegistrar.repository` | CSI Node Driver Registrar container image repository | `quay.io/k8scsi/csi-node-driver-registrar`
+`csiNodeDriverRegistrar.tag` | CSI Node Driver Registrar container image tag | `v1.0.1`
+`csiNodeDriverRegistrar.pullPolicy` | CSI Node Driver Registrar container image pull policy | `IfNotPresent`
 `csiExternalProvisioner.repository` | CSI External Provisioner container image repository | `quay.io/k8scsi/csi-provisioner`
-`csiExternalProvisioner.tag` | CSI External Provisioner container image tag | `canary`
+`csiExternalProvisioner.tag` | CSI External Provisioner container image tag | `v1.0.1`
 `csiExternalProvisioner.pullPolicy` | CSI External Provisioner container image pull policy | `Always`
 `csiExternalAttacher.repository` | CSI External Attacher container image repository | `quay.io/k8scsi/csi-attacher`
-`csiExternalAttacher.tag` | CSI External Attacher container image tag | `canary`
+`csiExternalAttacher.tag` | CSI External Attacher container image tag | `v1.0.1`
 `csiExternalAttacher.pullPolicy` | CSI External Attacher container image pull policy | `Always`
 `storageclass.name` | StorageOS storage class name | `fast`
 `storageclass.pool` | Default storage pool for storage class | `default`
