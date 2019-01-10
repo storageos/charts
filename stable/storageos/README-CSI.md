@@ -17,6 +17,14 @@ Features such as replication, encryption and caching help protect data and maxim
 
 Refer to the [StorageOS prerequisites docs](https://docs.storageos.com/docs/install/prerequisites/) for more information.
 
+| Kubernetes version     | Compatible Chart Version     |
+| ---------------------- | ---------------------------- |
+| 1.13                   | 0.3.x                        |
+| 1.12                   | 0.2.x                        |
+| 1.11                   | 0.1.x                        |
+| 1.10                   | 0.1.x                        |
+
+
 ## TL;DR
 
 ```console
