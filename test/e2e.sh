@@ -15,6 +15,33 @@ enable_lio() {
     echo
 }
 
+run_kind() {
+    echo "Download kind binary..."
+    # docker run --rm -it -v "$(pwd)":/go/bin golang go get sigs.k8s.io/kind && sudo mv kind /usr/local/bin/
+    wget -O kind 'https://docs.google.com/uc?export=download&id=1C_Jrj68Y685N5KcOqDQtfjeAZNW2UvNB' --no-check-certificate && chmod +x kind && sudo mv kind /usr/local/bin/
+
+    echo "Download kubectl..."
+    curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/"${K8S_VERSION}"/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+    echo
+
+    echo "Create Kubernetes cluster with kind..."
+    # kind create cluster --image=kindest/node:"$K8S_VERSION"
+    kind create cluster --image storageos/kind-node:"$K8S_VERSION"
+
+    echo "Export kubeconfig..."
+    # shellcheck disable=SC2155
+    export KUBECONFIG="$(kind get kubeconfig-path)"
+    echo
+
+    echo "Get cluster info..."
+    kubectl cluster-info
+    echo
+
+    echo "Wait for kubernetes to be ready"
+    JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
+    echo
+}
+
 run_minikube() {
     echo "Install socat and util-linux"
     sudo apt-get install -y socat util-linux
@@ -66,32 +93,43 @@ run_tillerless() {
      echo
 }
 
+install_tiller() {
+    # Install Tiller with RBAC
+    kubectl -n kube-system create sa tiller
+    kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+    docker exec "$config_container_id" helm init --service-account tiller
+    echo "Wait for Tiller to be up and ready..."
+    until kubectl -n kube-system get pods 2>&1 | grep -w "tiller-deploy"  | grep -w "1/1"; do sleep 1; done
+    echo
+}
+
 main() {
     enable_lio
-    run_minikube
+    run_kind
 
     echo "Ready for testing"
+
+    local config_container_id
+    config_container_id=$(docker run -it -d -v "$REPO_ROOT:/workdir" --network=host --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
+
+    # shellcheck disable=SC2064
+    trap "docker rm -f $config_container_id > /dev/null" EXIT
+
+    # Get kind container IP
+    kind_container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kind-1-control-plane)
+    # Copy kubeconfig file
+    docker exec "$config_container_id" mkdir /root/.kube
+    docker cp "$KUBECONFIG" "$config_container_id:/root/.kube/config"
 
     echo "Add git remote k8s ${CHARTS_REPO}"
     git remote add storageos "${CHARTS_REPO}" &> /dev/null || true
     git fetch storageos master
     echo
 
-    local config_container_id
-    config_container_id=$(docker run -it -d -v "/home:/home" -v "$REPO_ROOT:/workdir" \
-        --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
-
-    # shellcheck disable=SC2064
-    trap "docker rm -f $config_container_id > /dev/null" EXIT
-
-    # copy kubeconfig file
-    docker cp /home/travis/.kube "$config_container_id:/root/.kube"
-
-    # --- Work around for Tillerless Helm, till Helm v3 gets released --- #
-    run_tillerless
+    install_tiller
 
     # shellcheck disable=SC2086
-    docker exec -e HELM_HOST=127.0.0.1:44134 "$config_container_id" ct install --debug --config /workdir/test/ct.yaml
+    docker exec "$config_container_id" ct install --debug --config /workdir/test/ct.yaml
     # ------------------------------------------------------------------- #
 
     ##### docker exec "$config_container_id" ct install ${CHART_TESTING_ARGS} --config /workdir/test/ct.yaml

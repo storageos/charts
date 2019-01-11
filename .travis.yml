@@ -3,10 +3,10 @@ sudo: required
 env:
   global:
     - CHANGE_MINIKUBE_NONE_USER=true
-    - K8S_VERSION="v1.10.0"
-    - MINIKUBE_VERSION="v0.28.2"
-    - CHART_TESTING_IMAGE="quay.io/helmpack/chart-testing"
-    - CHART_TESTING_TAG="v2.0.0"
+    - K8S_VERSION="v1.13.2"
+    # - MINIKUBE_VERSION="v0.28.2"
+    - CHART_TESTING_IMAGE="storageos/chart-testing"
+    - CHART_TESTING_TAG="v2.1.0"
     - CHARTS_REPO="https://github.com/storageos/charts"
 
 before_install:
@@ -15,7 +15,8 @@ before_install:
             echo "Only doc files were updated, not running the CI."
             exit
         fi
-    - docker run -d -p 2399:2399 quay.io/coreos/etcd:v3.3.10 /usr/local/bin/etcd -advertise-client-urls http://0.0.0.0:2399 -listen-client-urls http://0.0.0.0:2399
+    # Disabling this for kind. This should be run inside the kind environment.
+    # - docker run -d -p 2399:2399 quay.io/coreos/etcd:v3.3.10 /usr/local/bin/etcd -advertise-client-urls http://0.0.0.0:2399 -listen-client-urls http://0.0.0.0:2399
 
 script:
-    - ./test/e2e-minikube.sh
+    - ./test/e2e.sh
