@@ -108,8 +108,8 @@ main() {
     local config_container_id
     # config_container_id=$(docker run -it -d -v "/home:/home" -v "$REPO_ROOT:/workdir" \
     #     --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
-    # config_container_id=$(docker run -it -d -v "$REPO_ROOT:/workdir" --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
-    config_container_id=$(docker run -it -d -v "$REPO_ROOT:/workdir" --network=host --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
+    config_container_id=$(docker run -it -d -v "$REPO_ROOT:/workdir" --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
+    # config_container_id=$(docker run -it -d -v "$REPO_ROOT:/workdir" --network=host --workdir /workdir "$CHART_TESTING_IMAGE:$CHART_TESTING_TAG" cat)
 
     # shellcheck disable=SC2064
     trap "docker rm -f $config_container_id > /dev/null" EXIT
@@ -120,7 +120,7 @@ main() {
     docker exec "$config_container_id" mkdir /root/.kube
     docker cp "$KUBECONFIG" "$config_container_id:/root/.kube/config"
     # Update localhost to kind container IP
-    # docker exec "$config_container_id" sed -i "s/localhost/$kind_container_ip/g" /root/.kube/config
+    docker exec "$config_container_id" sed -i "s/localhost/$kind_container_ip/g" /root/.kube/config
 
     echo "Add git remote k8s ${CHARTS_REPO}"
     git remote add storageos "${CHARTS_REPO}" &> /dev/null || true
