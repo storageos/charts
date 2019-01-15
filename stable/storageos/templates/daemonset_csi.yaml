@@ -43,20 +43,17 @@ spec:
             add:
             - SYS_ADMIN
       containers:
-      - name: csi-driver-registrar
-        image: "{{ .Values.csiDriverRegistrar.repository }}:{{ .Values.csiDriverRegistrar.tag }}"
-        imagePullPolicy: {{ .Values.csiDriverRegistrar.pullPolicy }}
+      - name: csi-node-driver-registrar
+        image: "{{ .Values.csiNodeDriverRegistrar.repository }}:{{ .Values.csiNodeDriverRegistrar.tag }}"
+        imagePullPolicy: {{ .Values.csiNodeDriverRegistrar.pullPolicy }}
         args:
           - "--v=5"
           - "--csi-address=$(ADDRESS)"
-          - "--mode=node-register"
-          - "--driver-requires-attachment=true"
-          - "--pod-info-mount-version=v1"
-          - "--kubelet-registration-path=/var/lib/kubelet/plugins/storageos/csi.sock"
+          - "--kubelet-registration-path=/var/lib/kubelet/plugins_registry/storageos/csi.sock"
         env:
           - name: ADDRESS
             value: /csi/csi.sock # plugin-dir is mounted at /csi
-            # value: unix://var/lib/kubelet/plugins/storageos/csi.sock
+            # value: unix://var/lib/kubelet/plugins_registry/storageos/csi.sock
           - name: KUBE_NODE_NAME
             valueFrom:
               fieldRef:
@@ -70,6 +67,18 @@ spec:
             mountPath: /var/lib/csi/sockets/
           - name: registration-dir
             mountPath: /registration
+      - name: csi-liveness-probe
+        image: "{{ .Values.csiLivenessProbe.repository }}:{{ .Values.csiLivenessProbe.tag }}"
+        imagePullPolicy: {{ .Values.csiLivenessProbe.pullPolicy }}
+        args:
+          - "--csi-address=$(ADDRESS)"
+          - "--connection-timeout=3s"
+        env:
+          - name: ADDRESS
+            value: /csi/csi.sock
+        volumeMounts:
+          - name: plugin-dir
+            mountPath: /csi
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -129,8 +138,10 @@ spec:
         - name: DEVICE_DIR
           value: {{ .Values.cluster.sharedDir }}/devices
         {{- end }}
+        - name: CSI_VERSION
+          value: {{ .Values.csi.version }}
         - name: CSI_ENDPOINT
-          value: unix://var/lib/kubelet/plugins/storageos/csi.sock
+          value: unix://var/lib/kubelet/plugins_registry/storageos/csi.sock
         # CSI credentials config.
         {{- if .Values.csi.provisionCreds.enable }}
         - name: CSI_REQUIRE_CREDS_CREATE_VOL
@@ -211,7 +222,7 @@ spec:
             mountPath: /var/lib/kubelet
             mountPropagation: "Bidirectional"
           - name: plugin-dir
-            mountPath: /var/lib/kubelet/plugins/storageos/
+            mountPath: /var/lib/kubelet/plugins_registry/storageos/
           - name: device-dir
             mountPath: /dev
           - name: fuse
@@ -236,7 +247,7 @@ spec:
           type: DirectoryOrCreate
       - name: registration-dir
         hostPath:
-          path: /var/lib/kubelet/plugins
+          path: /var/lib/kubelet/plugins_registry
           type: Directory
       - name: kubelet-dir
         hostPath:
@@ -244,7 +255,7 @@ spec:
           type: Directory
       - name: plugin-dir
         hostPath:
-          path: /var/lib/kubelet/plugins/storageos/
+          path: /var/lib/kubelet/plugins_registry/storageos/
           type: DirectoryOrCreate
       - name: device-dir
         hostPath:

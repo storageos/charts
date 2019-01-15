@@ -52,10 +52,28 @@ spec:
         volumeMounts:
           - name: plugin-dir
             mountPath: /csi
+      - name: csi-cluster-driver-registrar
+        image: "{{ .Values.csiClusterDriverRegistrar.repository }}:{{ .Values.csiClusterDriverRegistrar.tag }}"
+        imagePullPolicy: {{ .Values.csiClusterDriverRegistrar.pullPolicy }}
+        args:
+          - "--v=5"
+          - "--csi-address=$(ADDRESS)"
+          - "--pod-info-mount-version=v1"
+        env:
+          - name: ADDRESS
+            value: /csi/csi.sock
+          - name: KUBE_NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+        volumeMounts:
+          - name: plugin-dir
+            mountPath: /csi
       volumes:
         - name: plugin-dir
           hostPath:
-            path: /var/lib/kubelet/plugins/storageos/
+            path: /var/lib/kubelet/plugins_registry/storageos/
             type: DirectoryOrCreate
 
 {{- end }}

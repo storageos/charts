@@ -14,27 +14,27 @@ parameters:
   pool: {{ .Values.storageclass.pool }}
   # Value with space is an invalid label in CSI volumes.
   # description: Kubernetes volume
-  fsType: {{ .Values.storageclass.fsType }}
+  csi.storage.k8s.io/fstype: {{ .Values.storageclass.fsType }}
 
   # CSI credentials config.
   {{- if .Values.csi.provisionCreds.enable }}
-  csiProvisionerSecretName: {{ .Values.csi.provisionCreds.secretName }}
-  csiProvisionerSecretNamespace: {{ .Release.Namespace }}
+  csi.storage.k8s.io/provisioner-secret-name: {{ .Values.csi.provisionCreds.secretName }}
+  csi.storage.k8s.io/provisioner-secret-namespace: {{ .Release.Namespace }}
   {{- end }}
 
   {{- if .Values.csi.controllerPublishCreds.enable }}
-  csiControllerPublishSecretName: {{ .Values.csi.controllerPublishCreds.secretName }}
-  csiControllerPublishSecretNamespace: {{ .Release.Namespace }}
+  csi.storage.k8s.io/controller-publish-secret-name: {{ .Values.csi.controllerPublishCreds.secretName }}
+  csi.storage.k8s.io/controller-publish-secret-namespace: {{ .Release.Namespace }}
   {{- end}}
 
   {{- if .Values.csi.nodeStageCreds.enable }}
-  csiNodeStageSecretName: {{ .Values.csi.nodeStageCreds.secretName }}
-  csiNodeStageSecretNamespace: {{ .Release.Namespace }}
+  csi.storage.k8s.io/node-stage-secret-name: {{ .Values.csi.nodeStageCreds.secretName }}
+  csi.storage.k8s.io/node-stage-secret-name: {{ .Release.Namespace }}
   {{- end }}
 
   {{- if .Values.csi.nodePublishCreds.enable }}
-  csiNodePublishSecretName: {{ .Values.csi.nodePublishCreds.secretName }}
-  csiNodePublishSecretNamespace: {{ .Release.Namespace }}
+  csi.storage.k8s.io/node-publish-secret-name: {{ .Values.csi.nodePublishCreds.secretName }}
+  csi.storage.k8s.io/node-publish-secret-namespace: {{ .Release.Namespace }}
   {{- end }}
 
 ---
@@ -73,6 +73,12 @@ rules:
   - apiGroups: [""]
     resources: ["events"]
     verbs: ["list", "watch", "create", "update", "patch"]
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["create"]
+  - apiGroups: ["csi.storage.k8s.io"]
+    resources: ["csidrivers"]
+    verbs: ["create"]
 
 ---
 
@@ -263,6 +269,27 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: key-management-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+# Binding Statefulset service account to Driver Registrar role.
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: k8s-driver-registrar-binding
+  labels:
+    app: {{ template "storageos.name" . }}
+    chart: {{ template "storageos.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "storageos.fullname" . }}-statefulset-sa
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: driver-registrar-role
   apiGroup: rbac.authorization.k8s.io
 
 {{- end }}
