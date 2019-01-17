@@ -125,7 +125,7 @@ Operator chart and their default values.
 Parameter | Description | Default
 --------- | ----------- | -------
 `image.repository` | StorageOSCluster container image repository | `storageos/storageoscluster-operator`
-`image.tag` | StorageOSCluster container image tag | `v0.0.4`
+`image.tag` | StorageOSCluster container image tag | `v0.0.7`
 `image.pullPolicy` | StorageOSCluster container image pull policy | `IfNotPresent`
 
 
