@@ -109,7 +109,7 @@ Parameter | Description | Default
 `csiNodeDriverRegistrar.repository` | CSI Node Driver Registrar container image repository | `quay.io/k8scsi/csi-node-driver-registrar`
 `csiNodeDriverRegistrar.tag` | CSI Node Driver Registrar container image tag | `v1.0.1`
 `csiNodeDriverRegistrar.pullPolicy` | CSI Node Driver Registrar container image pull policy | `IfNotPresent`
-`csiExternalProvisioner.repository` | CSI External Provisioner container image repository | `quay.io/k8scsi/csi-provisioner`
+`csiExternalProvisioner.repository` | CSI External Provisioner container image repository | `storageos/csi-provisioner`
 `csiExternalProvisioner.tag` | CSI External Provisioner container image tag | `v1.0.1`
 `csiExternalProvisioner.pullPolicy` | CSI External Provisioner container image pull policy | `Always`
 `csiExternalAttacher.repository` | CSI External Attacher container image repository | `quay.io/k8scsi/csi-attacher`
