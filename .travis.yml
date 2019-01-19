@@ -6,7 +6,7 @@ env:
     - K8S_VERSION="v1.13.2"
     # - MINIKUBE_VERSION="v0.28.2"
     - CHART_TESTING_IMAGE="storageos/chart-testing"
-    - CHART_TESTING_TAG="v2.1.0"
+    - CHART_TESTING_TAG="v2.1.0-defer-fix"
     - CHARTS_REPO="https://github.com/storageos/charts"
 
 before_install:
