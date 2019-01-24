@@ -22,7 +22,7 @@ csiNodeDriverRegistrar:
   pullPolicy: IfNotPresent
 
 csiExternalProvisioner:
-  repository: quay.io/k8scsi/csi-provisioner
+  repository: storageos/csi-provisioner
   tag: v1.0.1
   pullPolicy: IfNotPresent
 
