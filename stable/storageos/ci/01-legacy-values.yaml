@@ -13,5 +13,8 @@ ingress:
     key: dGxza2V5Cg==
     certificate: Y2VydGlmaWNhdGUK
 
+podSecurityPolicy:
+  enabled: true
+
 storageclass:
   name: fast2
