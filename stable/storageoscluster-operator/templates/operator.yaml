@@ -37,3 +37,7 @@ spec:
                   fieldPath: metadata.namespace
             - name: OPERATOR_NAME
               value: "cluster-operator"
+            {{- if .Values.podSecurityPolicy.enabled }}
+            - name: PSP_ENABLED
+              value: "true"
+            {{- end }}

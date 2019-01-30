@@ -127,6 +127,8 @@ Parameter | Description | Default
 `image.repository` | StorageOSCluster container image repository | `storageos/storageoscluster-operator`
 `image.tag` | StorageOSCluster container image tag | `v0.0.8`
 `image.pullPolicy` | StorageOSCluster container image pull policy | `IfNotPresent`
+`popSecurityPolicy.enable` | If true, create & use PodSecurityPolicy resources | `false`
+`popSecurityPolicy.annotations` | Specify pod annotations in the pod security policy | `{}`
 
 
 ## Deleting a StorageOS Cluster
