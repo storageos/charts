@@ -26,5 +26,8 @@ csi:
 #   address: 127.0.0.1:2399
 #   backend: etcd
 
+podSecurityPolicy:
+  enabled: true
+
 storageclass:
   name: fast1

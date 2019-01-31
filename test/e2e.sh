@@ -6,7 +6,9 @@ readonly REPO_ROOT="${REPO_ROOT:-$(git rev-parse --show-toplevel)}"
 
 enable_lio() {
     echo "Enable LIO"
-    sudo apt -y update
+    # Disable update temporarily. Ubuntu package repo seems to be failing with
+    # error: Some index files failed to download.
+    # sudo apt -y update
     sudo apt -y install linux-image-extra-$(uname -r)
     sudo mount --make-shared /sys
     sudo mount --make-shared /
@@ -26,7 +28,7 @@ run_kind() {
 
     echo "Create Kubernetes cluster with kind..."
     # kind create cluster --image=kindest/node:"$K8S_VERSION"
-    kind create cluster --image storageos/kind-node:"$K8S_VERSION"
+    kind create cluster --image storageos/kind-node:"$K8S_VERSION" --config test/kind-config.yaml
 
     echo "Export kubeconfig..."
     # shellcheck disable=SC2155
@@ -35,6 +37,10 @@ run_kind() {
 
     echo "Get cluster info..."
     kubectl cluster-info
+    echo
+
+    echo "apply pod security policy for the pods in kube-system namespace"
+    kubectl apply -f test/privileged-psp-with-rbac.yaml
     echo
 
     echo "Wait for kubernetes to be ready"
