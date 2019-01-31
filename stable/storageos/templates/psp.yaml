@@ -1,0 +1,39 @@
+{{- if .Values.podSecurityPolicy.enabled }}
+
+apiVersion: extensions/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ template "storageos.fullname" . }}-psp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "storageos.name" . }}
+    chart: {{ template "storageos.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  annotations:
+{{- if .Values.podSecurityPolicy.annotations }}
+{{ toYaml .Values.podSecurityPolicy.annotations | indent 4 }}
+{{- end }}
+spec:
+  privileged: true
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - 'SYS_ADMIN'
+  volumes:
+  - '*'
+  hostNetwork: true
+  hostPorts:
+  - min: 5700
+    max: 5800
+  hostIPC: true
+  hostPID: true
+  runAsUser:
+    rule: 'RunAsAny'
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+
+{{- end }}

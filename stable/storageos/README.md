@@ -137,6 +137,8 @@ Parameter | Description | Default
 `ingress.secrets[0].name` | TLS Secret Name | `nil`
 `ingress.secrets[0].certificate` | TLS Secret Certificate | `nil`
 `ingress.secrets[0].key` | TLS Secret Key | `nil`
+`podSecurityPolicy.enabled` | If true, create & use PodSecurityPolicy resources | `false`
+`podSecurityPolicy.annotations` | Specify pod annotations in the pod security policy | `{}`
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
