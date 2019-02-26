@@ -1,8 +1,8 @@
 apiVersion: v1
-appVersion: "0.0.8"
+appVersion: "0.0.9"
 description: A StorageOS Cluster Operator chart for Kubernetes
 name: storageoscluster-operator
-version: 0.1.10
+version: 0.1.11
 keywords:
 - storage
 - block-storage
