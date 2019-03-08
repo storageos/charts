@@ -108,3 +108,51 @@ roleRef:
   kind: ClusterRole
   name: storageos-operator
   apiGroup: rbac.authorization.k8s.io
+
+---
+
+{{- if .Values.podSecurityPolicy.enabled }}
+
+# ClusterRole for using pod security policy.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "storageoscluster-operator.fullname" . }}-psp-user
+  labels:
+    app: {{ template "storageoscluster-operator.name" . }}
+    chart: {{ template "storageoscluster-operator.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+rules:
+- apiGroups: ["extensions"]
+  resources: ["podsecuritypolicies"]
+  verbs: ["use"]
+  resourceNames:
+  - {{ template "storageoscluster-operator.fullname" . }}-psp
+
+{{- end }}
+
+---
+
+{{- if .Values.podSecurityPolicy.enabled }}
+
+# Bind pod security policy cluster role to the operator service account.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "storageoscluster-operator.fullname" . }}-psp-user
+  labels:
+    app: {{ template "storageoscluster-operator.name" . }}
+    chart: {{ template "storageoscluster-operator.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+roleRef:
+   apiGroup: rbac.authorization.k8s.io
+   kind: ClusterRole
+   name: {{ template "storageoscluster-operator.fullname" . }}-psp-user
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "storageoscluster-operator.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+
+{{- end }}
