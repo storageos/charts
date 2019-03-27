@@ -36,6 +36,17 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - pods
+  verbs:
+  - list
+  - watch
+  - get
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
   - events
   - namespaces
   - serviceaccounts
@@ -66,6 +77,7 @@ rules:
   resources:
   - storageclasses
   - volumeattachments
+  - csinodeinfos
   verbs:
   - create
   - delete

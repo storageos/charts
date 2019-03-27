@@ -12,7 +12,7 @@ spec:
     shortNames:
     - stos
   scope: Namespaced
-  version: v1alpha1
+  version: v1
   additionalPrinterColumns:
   - name: Ready
     type: string
@@ -39,6 +39,10 @@ spec:
               type: string
             namespace:
               type: string
+            disableFencing:
+              type: boolean
+            disableTelemetry:
+              type: boolean
             images:
               properties:
                 nodeContainer:
@@ -88,8 +92,6 @@ spec:
                 tls:
                   type: boolean
                 annotations: {}
-            cleanupAtDelete:
-              type: boolean
             kvBackend:
               properties:
                 address:
@@ -101,6 +103,7 @@ spec:
             debug:
               type: boolean
             nodeSelectorTerms: {}
+            tolerations: {}
             resources:
               properties:
                 limits: {}

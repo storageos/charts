@@ -4,7 +4,7 @@
 
 image:
   repository: storageos/cluster-operator
-  tag: v0.0.11
+  tag: v1.0.0
   pullPolicy: IfNotPresent
 
 serviceAccount:
