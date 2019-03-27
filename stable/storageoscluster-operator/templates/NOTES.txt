@@ -24,7 +24,7 @@ data:
 above (storageos-api in the above example). When the resource is created, the
 cluster will be deployed.
 
-apiVersion: storageos.com/v1alpha1
+apiVersion: storageos.com/v1
 kind: StorageOSCluster
 metadata:
   name: example-storageos

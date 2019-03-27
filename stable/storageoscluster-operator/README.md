@@ -58,7 +58,7 @@ Create a `StorageOSCluster` custom resource and refer the above secret in
 `secretRefName` and `secretRefNamespace` fields.
 
 ```yaml
-apiVersion: "storageos.com/v1alpha1"
+apiVersion: "storageos.com/v1"
 kind: "StorageOSCluster"
 metadata:
   name: "example-storageos"
@@ -124,8 +124,8 @@ Operator chart and their default values.
 
 Parameter | Description | Default
 --------- | ----------- | -------
-`image.repository` | StorageOSCluster container image repository | `storageos/storageoscluster-operator`
-`image.tag` | StorageOSCluster container image tag | `v0.0.11`
+`image.repository` | StorageOSCluster container image repository | `storageos/cluster-operator`
+`image.tag` | StorageOSCluster container image tag | `v1.0.0`
 `image.pullPolicy` | StorageOSCluster container image pull policy | `IfNotPresent`
 
 
