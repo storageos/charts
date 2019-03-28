@@ -1,0 +1,118 @@
+# Default values for storageos.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+name: storageos-operator
+
+distro: default
+
+serviceAccount:
+  create: true
+  name: storageos-operator-sa
+
+podSecurityPolicy:
+  enabled: false
+  annotations: {}
+    ## Specify pod annotations
+    ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#apparmor
+    ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#seccomp
+    ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#sysctl
+    ##
+    # seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+    # seccomp.security.alpha.kubernetes.io/defaultProfileName: 'docker/default'
+    # apparmor.security.beta.kubernetes.io/defaultProfileName: 'runtime/default'
+
+# operator-specific configuation parameters.
+operator:
+
+  image:
+    repository: storageos/cluster-operator
+    tag: 1.1.0
+    pullPolicy: IfNotPresent
+
+# cluster-specific configuation parameters.
+cluster:
+  # set create to true if the operator should auto-create the StorageOS cluster.
+  create: true
+
+  # Name of the deployment.
+  name: storageos
+
+  # Namespace to install the StorageOS cluster into.
+  namespace: kube-system
+
+  # Name of the secret containing StorageOS API credentials.
+  secretRefName: storageos-api
+
+  # Address is used to generate the ApiAddress value in the secret. This is
+  # updated later with the service ClusterIP which is not known at this stage.
+  address: storageos:5705
+
+  # Default admin account.
+  admin:
+
+    # Username to authenticate to the StorageOS API with.
+    username: storageos
+
+    # Password to authenticate to the StorageOS API with.  If empty, a random
+    # password will be generated and set in the secretRefName secret.
+    password:
+
+  # sharedDir should be set if running kubelet in a container.  This should
+  # be the path shared into to kubelet container, typically:
+  # "/var/lib/kubelet/plugins/kubernetes.io~storageos".  If not set, defaults
+  # will be used.
+  sharedDir: /var/lib/kubelet/plugins/kubernetes.io~storageos
+
+  # To disable anonymous usage reporting across the cluster, set to true.
+  # Defaults to false. To help improve the product, data such as API usage and
+  # StorageOS configuration information is collected.
+  disableTelemetry: false
+
+  images:
+    # nodeContainer is the StorageOS node image to use, available from the
+    # [Docker Hub](https://hub.docker.com/r/storageos/node/).
+    node:
+      image: storageos/node
+      tag: 1.2.0
+    initContainer: storageos/init:0.1
+    csiNodeDriverRegistrarContainer: quay.io/k8scsi/csi-cluster-driver-registrar:v1.0.1
+    csiClusterDriverRegistrarContainer: quay.io/k8scsi/csi-node-driver-registrar:v1.0.1
+    csiExternalProvisionerContainer: storageos/csi-provisioner:v1.0.1
+    csiExternalAttacherContainer: quay.io/k8scsi/csi-attacher:v1.0.1
+  csi:
+    enable: true
+    # endpoint: /var/lib/kubelet/device-plugins/
+    # registrarSocketDir: /var/lib/kubelet/device-plugins/
+    # kubeletDir: /var/lib/kubelet
+    # pluginDir: /var/lib/kubelet/plugins/storageos/
+    # deviceDir: /dev
+    # registrationDir: /var/lib/kubelet/plugins
+    enableProvisionCreds: false
+    enableControllerPublishCreds: false
+    enableNodePublishCreds: false
+    # kubeletRegistrationPath: /var/lib/kubelet/plugins/storageos/csi.sock
+    # driverRegisterationMode: node-register
+    # DriverRequiresAttachment: "true"
+  service:
+    name: "storageos"
+    type: "ClusterIP"
+    externalPort: 5705
+    internalPort: 5705
+  ingress:
+    enable: false
+    hostname: storageos.local
+    tls: false
+  kvBackend:
+    embedded: true
+    address:
+    backend:
+    tlsSecretName:
+    tlsSecretNamespace:
+  nodeSelectorTerms:
+  tolerations:
+  resources:
+    limits:
+      memory: "1Gi"
+    requests:
+      memory: "702Mi"
