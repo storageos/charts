@@ -49,7 +49,6 @@ metadata:
 type: "kubernetes.io/storageos"
 data:
   # echo -n '<secret>' | base64
-  apiAddress: c3RvcmFnZW9zOjU3MDU=
   apiUsername: c3RvcmFnZW9z
   apiPassword: c3RvcmFnZW9z
 ```
@@ -106,17 +105,6 @@ Events:
   Normal   ChangedStatus  35s              storageoscluster-operator  3/3 StorageOS nodes are functional. Cluster healthy
 ```
 
-### Setup Automatic Cleanup
-
-The above setup would create storageos data at `/var/lib/storageos`. In order to
-setup automatic cleanup when a cluster is deleted, the chart's `cleanup.enable`
-must be set to `true` in `values.yaml` before install the chart. This would
-install some extra components for automatic cleanup of storageos cluster data.
-In addition to that, the StorageOS cluster spec must also have `cleanupAtDelete`
-set to `true`. With this set, when a cluster is deleted, the data and
-configurations associated with the cluster are also deleted.
-
-
 ## Configuration
 
 The following tables lists the configurable parameters of the StorageOSCluster
@@ -125,8 +113,10 @@ Operator chart and their default values.
 Parameter | Description | Default
 --------- | ----------- | -------
 `image.repository` | StorageOSCluster container image repository | `storageos/cluster-operator`
-`image.tag` | StorageOSCluster container image tag | `v1.0.0`
+`image.tag` | StorageOSCluster container image tag | `1.1.0`
 `image.pullPolicy` | StorageOSCluster container image pull policy | `IfNotPresent`
+`podSecurityPolicy.enabled` | If true, create & use PodSecurityPolicy resources | `false`
+`podSecurityPolicy.annotations` | Specify pod annotations in the pod security policy | `{}`
 
 
 ## Deleting a StorageOS Cluster
