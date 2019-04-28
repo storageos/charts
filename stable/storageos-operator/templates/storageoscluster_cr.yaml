@@ -9,50 +9,41 @@ spec:
   namespace: {{ .Values.cluster.namespace }}
   secretRefName: {{ .Values.cluster.secretRefName }}
   secretRefNamespace: {{ .Release.Namespace }}
-  tlsEtcdSecretRefName: {{ .Values.cluster.kvBackend.tlsSecretName }}
-  tlsEtcdSecretRefNamespace: {{ .Values.cluster.kvBackend.tlsSecretNamespace }}
   disableTelemetry: {{ .Values.cluster.disableTelemetry }}
+
+  {{- if .Values.cluster.images.node.repository }}
   images:
-    nodeContainer: "{{ .Values.cluster.images.node.image }}:{{ .Values.cluster.images.node.tag }}"
-    initContainer: {{ .Values.cluster.images.initContainer }}
-    # csiNodeDriverRegistrarContainer: {{ .Values.cluster.images.initContainer }}
-    # csiClusterDriverRegistrarContainer: {{ .Values.cluster.images.initContainer }}
-    # csiExternalProvisionerContainer: {{ .Values.cluster.images.initContainer }}
-    # csiExternalAttacherContainer: {{ .Values.cluster.images.initContainer }}
+    nodeContainer: "{{ .Values.cluster.images.node.repository }}:{{ .Values.cluster.images.node.tag }}"
+  {{- end }}
+
   csi:
     enable: {{ .Values.cluster.csi.enable }}
-    # endpoint: {{ .Values.cluster.csi.endpoint }}
-    # registrarSocketDir: {{ .Values.cluster.csi.registrarSocketDir }}
-    # kubeletDir: {{ .Values.cluster.csi.kubeletDir }}
-    # pluginDir: {{ .Values.cluster.csi.pluginDir }}
-    # deviceDir: {{ .Values.cluster.csi.deviceDir }}
-    # registrationDir: {{ .Values.cluster.csi.registrationDir }}
-    enableProvisionCreds: {{ .Values.cluster.csi.enableProvisionCreds }}
-    enableControllerPublishCreds: {{ .Values.cluster.csi.enableControllerPublishCreds }}
-    enableNodePublishCreds: {{ .Values.cluster.csi.enableNodePublishCreds }}
-    # kubeletRegistrationPath: {{ .Values.cluster.csi.kubeletRegistrationPath }}
-    # driverRegisterationMode: {{ .Values.cluster.csi.driverRegisterationMode }}
-    # DriverRequiresAttachment: {{ .Values.cluster.csi.DriverRequiresAttachment }}
-  service:
-    name: {{ .Values.cluster.service.name }}
-    type:  {{ .Values.cluster.service.type }}
-    externalPort:  {{ .Values.cluster.service.externalPort }}
-    internalPort:  {{ .Values.cluster.service.internalPort }}
-  ingress:
-    enable: {{ .Values.cluster.ingress.enable }}
-    hostname: {{ .Values.cluster.ingress.hostname }}
-    tls: {{ .Values.cluster.ingress.tls }}
+
+  {{- if .Values.cluster.sharedDir }}
   sharedDir: {{ .Values.cluster.sharedDir }}
+  {{- end }}
+
   {{- if eq .Values.cluster.kvBackend.embedded false }}
   kvBackend:
     address: {{ .Values.cluster.kvBackend.address }}
-    backend: etcd
+    backend: {{ .Values.cluster.kvBackend.backend }}
   {{- end }}
-  {{- if .Values.cluster.nodeSelectorTerms }}
-  nodeSelectorTerms: {{ .Values.cluster.nodeSelectorTerms }}
+
+  {{- if .Values.cluster.nodeSelectorTerm.key }}
+  nodeSelectorTerms:
+    - matchExpressions:
+        - key: {{ .Values.cluster.nodeSelectorTerm.key }}
+          operator: In
+          values:
+          - "{{ .Values.cluster.nodeSelectorTerm.value }}"
   {{- end }}
-  {{- if .Values.cluster.tolerations }}
-  tolerations: {{ .Values.cluster.tolerations }}
+
+  {{- if .Values.cluster.toleration.key }}
+  tolerations:
+    - key: {{ .Values.cluster.toleration.key }}
+      operator: "Equal"
+      value: {{ .Values.cluster.toleration.value }}
+      effect: "NoSchedule"
   {{- end }}
 
 {{- end }}

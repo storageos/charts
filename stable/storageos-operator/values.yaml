@@ -44,17 +44,13 @@ cluster:
   # Name of the secret containing StorageOS API credentials.
   secretRefName: storageos-api
 
-  # Address is used to generate the ApiAddress value in the secret. This is
-  # updated later with the service ClusterIP which is not known at this stage.
-  address: storageos:5705
-
   # Default admin account.
   admin:
 
     # Username to authenticate to the StorageOS API with.
     username: storageos
 
-    # Password to authenticate to the StorageOS API with.  If empty, a random
+    # Password to authenticate to the StorageOS API with. If empty, a random
     # password will be generated and set in the secretRefName secret.
     password:
 
@@ -62,7 +58,25 @@ cluster:
   # be the path shared into to kubelet container, typically:
   # "/var/lib/kubelet/plugins/kubernetes.io~storageos".  If not set, defaults
   # will be used.
-  sharedDir: /var/lib/kubelet/plugins/kubernetes.io~storageos
+  sharedDir:
+
+  # Key-Value store backend.
+  kvBackend:
+    embedded: true
+    address:
+    backend: etcd
+    tlsSecretName:
+    tlsSecretNamespace:
+
+  # Node selector terms to install StorageOS on.
+  nodeSelectorTerm:
+    key:
+    value:
+
+  # Pod toleration for the StorageOS pods.
+  toleration:
+    key:
+    value:
 
   # To disable anonymous usage reporting across the cluster, set to true.
   # Defaults to false. To help improve the product, data such as API usage and
@@ -73,46 +87,8 @@ cluster:
     # nodeContainer is the StorageOS node image to use, available from the
     # [Docker Hub](https://hub.docker.com/r/storageos/node/).
     node:
-      image: storageos/node
+      repository: storageos/node
       tag: 1.2.0
-    initContainer: storageos/init:0.1
-    csiNodeDriverRegistrarContainer: quay.io/k8scsi/csi-cluster-driver-registrar:v1.0.1
-    csiClusterDriverRegistrarContainer: quay.io/k8scsi/csi-node-driver-registrar:v1.0.1
-    csiExternalProvisionerContainer: storageos/csi-provisioner:v1.0.1
-    csiExternalAttacherContainer: quay.io/k8scsi/csi-attacher:v1.0.1
+
   csi:
     enable: true
-    # endpoint: /var/lib/kubelet/device-plugins/
-    # registrarSocketDir: /var/lib/kubelet/device-plugins/
-    # kubeletDir: /var/lib/kubelet
-    # pluginDir: /var/lib/kubelet/plugins/storageos/
-    # deviceDir: /dev
-    # registrationDir: /var/lib/kubelet/plugins
-    enableProvisionCreds: false
-    enableControllerPublishCreds: false
-    enableNodePublishCreds: false
-    # kubeletRegistrationPath: /var/lib/kubelet/plugins/storageos/csi.sock
-    # driverRegisterationMode: node-register
-    # DriverRequiresAttachment: "true"
-  service:
-    name: "storageos"
-    type: "ClusterIP"
-    externalPort: 5705
-    internalPort: 5705
-  ingress:
-    enable: false
-    hostname: storageos.local
-    tls: false
-  kvBackend:
-    embedded: true
-    address:
-    backend:
-    tlsSecretName:
-    tlsSecretNamespace:
-  nodeSelectorTerms:
-  tolerations:
-  resources:
-    limits:
-      memory: "1Gi"
-    requests:
-      memory: "702Mi"

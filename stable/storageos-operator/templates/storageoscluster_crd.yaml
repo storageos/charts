@@ -12,7 +12,7 @@ spec:
     plural: storageosclusters
     singular: storageoscluster
     shortNames:
-    - storageos
+    - stos
   scope: Namespaced
   version: v1
   additionalPrinterColumns:
@@ -83,6 +83,10 @@ spec:
               type: string
             secretRefNamespace:
               type: string
+            tlsEtcdSecretRefName:
+              type: string
+            tlsEtcdSecretRefNamespace:
+              type: string
             sharedDir:
               type: string
             ingress:
@@ -121,3 +125,7 @@ spec:
                 type: string
             ready:
               type: string
+            members:
+              properties:
+                ready: {}
+                unready: {}

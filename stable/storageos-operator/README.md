@@ -1,7 +1,8 @@
 # StorageOS Operator Helm Chart
 
 > **Note**: This is the recommended chart to use for installing StorageOS.
-installs the StorageOS Operator, and then installs StorageOS as a DaemonSet.
+It installs the StorageOS Operator, and then installs StorageOS with basic
+configurations as a DaemonSet.
 Other Helm charts ([storageoscluster-operator](https://github.com/storageos/charts/tree/master/stable/storageoscluster-operator) and [storageos](https://github.com/storageos/charts/tree/master/stable/storageos))
 will be deprecated.
 
@@ -45,7 +46,7 @@ namespace.
 
 > **Tip**: List all releases using `helm list`
 
-## Creating a StorageOS cluster
+## Creating a StorageOS cluster with advanced configurations
 
 Create a secret to store storageos cluster secrets:
 
@@ -97,6 +98,9 @@ spec:
 
 in the above `StorageOSCluster` resource config.
 
+Learn more about advanced configuration options
+[here](https://github.com/storageos/cluster-operator/blob/master/README.md#storageoscluster-resource-configuration).
+
 To check cluster status, run:
 
 ```bash
@@ -122,16 +126,6 @@ Events:
   Normal   ChangedStatus  35s              storageos-operator  3/3 StorageOS nodes are functional. Cluster healthy
 ```
 
-### Setup Automatic Cleanup
-
-The above setup would create storageos data at `/var/lib/storageos`. In order to
-setup automatic cleanup when a cluster is deleted, the chart's `cleanup.enable`
-must be set to `true` in `values.yaml` before install the chart. This would
-install some extra components for automatic cleanup of storageos cluster data.
-In addition to that, the StorageOS cluster spec must also have `cleanupAtDelete`
-set to `true`. With this set, when a cluster is deleted, the data and
-configurations associated with the cluster are also deleted.
-
 ## Configuration
 
 The following tables lists the configurable parameters of the StorageOSCluster
@@ -139,9 +133,31 @@ Operator chart and their default values.
 
 Parameter | Description | Default
 --------- | ----------- | -------
-`image.repository` | StorageOSCluster container image repository | `storageos/cluster-operator`
-`image.tag` | StorageOSCluster container image tag | `1.1.0`
-`image.pullPolicy` | StorageOSCluster container image pull policy | `IfNotPresent`
+`operator.image.repository` | StorageOSCluster container image repository | `storageos/cluster-operator`
+`operator.image.tag` | StorageOSCluster container image tag | `1.1.0`
+`operator.image.pullPolicy` | StorageOSCluster container image pull policy | `IfNotPresent`
+`podSecurityPolicy.enabled` | If true, create & use PodSecurityPolicy resources | `false`
+`podSecurityPolicy.annotations` | Specify pod annotations in the pod security policy | `{}`
+`cluster.create` | If true, auto-create the StorageOS cluster | `true`
+`cluster.name` | Name of the storageos deployment | `storageos`
+`cluster.namespace` | Namespace to install the StorageOS cluster into | `kube-system`
+`cluster.secretRefName` | Name of the secret containing StorageOS API credentials | `storageos-api`
+`cluster.admin.username` | Username to authenticate to the StorageOS API with | `storageos`
+`cluster.admin.password` | Password to authenticate to the StorageOS API with |
+`cluster.sharedDir` | The path shared into to kubelet container when running kubelet in a container |
+`cluster.kvBackend.embedded` | Use StorageOS embedded etcd | `true`
+`cluster.kvBackend.address` | External etcd address |
+`cluster.kvBackend.backend` | Key-Value store backend name | `etcd`
+`cluster.kvBackend.tlsSecretName` | Name of the secret containing kv backend tls cert |
+`cluster.kvBackend.tlsSecretNamespace` | Namespace of the secret containing kv backend tls cert |
+`cluster.nodeSelectorTerm.key` | Key of the node selector term used for pod placement |
+`cluster.nodeSelectorTerm.value` | Value of the node selector term used for pod placement |
+`cluster.toleration.key` | Key of the pod toleration parameter |
+`cluster.toleration.value` | Value of the pod toleration parameter |
+`cluster.disableTelemetry` | If true, no telemetry data will be collected from the cluster | `false`
+`cluster.images.node.repository` | StorageOS Node container image repository | `storageos/node`
+`cluster.images.node.tag` | StorageOS Node container image tag | `1.2.0`
+`cluster.csi.enable` | If true, CSI driver is enabled | `true`
 
 ## Deleting a StorageOS Cluster
 
