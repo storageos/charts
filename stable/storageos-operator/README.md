@@ -1,9 +1,11 @@
 # StorageOS Operator Helm Chart
 
-> **Note**: This is the recommended chart to use for installing StorageOS.
-It installs the StorageOS Operator, and then installs StorageOS with basic
-configurations as a DaemonSet.
-Other Helm charts ([storageoscluster-operator](https://github.com/storageos/charts/tree/master/stable/storageoscluster-operator) and [storageos](https://github.com/storageos/charts/tree/master/stable/storageos))
+> **Note**: This is the recommended chart to use for installing StorageOS. It
+installs the StorageOS Operator, and then installs a StorageOS cluster with a
+minimal configuration. Other Helm charts
+([storageoscluster-operator](https://github.com/storageos/charts/tree/master/stable/storageoscluster-operator)
+and
+[storageos](https://github.com/storageos/charts/tree/master/stable/storageos))
 will be deprecated.
 
 [StorageOS](https://storageos.com) is a software-based storage platform
@@ -42,11 +44,24 @@ $ helm install storageos/storageos-operator --namespace storageos-operator
 ```
 
 This will install the StorageOSCluster operator in `storageos-operator`
-namespace.
+namespace and deploys StorageOS with a minimal configuration.
 
 > **Tip**: List all releases using `helm list`
 
-## Creating a StorageOS cluster with advanced configurations
+## Creating a StorageOS cluster manually
+
+The Helm chart supports a subset of StorageOSCluster custom resource parameters.
+For advanced configurations, you may wish to create the cluster resource
+manually and only use the Helm chart to install the Operator.
+
+To disable auto-provisioning the cluster with the Helm chart, set
+`cluster.create` to false:
+
+```yaml
+cluster:
+  ...
+  create: false
+```
 
 Create a secret to store storageos cluster secrets:
 
@@ -81,7 +96,7 @@ spec:
 ```
 
 Once the `StorageOSCluster` configuration is applied, the StorageOSCluster
-operator would setup a storageos cluster in the `storageos` namespace by
+operator will create a StorageOS cluster in the `storageos` namespace by
 default.
 
 Most installations will want to use the default [CSI](https://kubernetes-csi.github.io/docs/)
