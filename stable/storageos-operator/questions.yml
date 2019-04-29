@@ -3,7 +3,7 @@ categories:
 labels:
   io.rancher.certified: partner
 questions:
-- variable: distro
+- variable: k8sDistro
   default: rancher
   description: "Kubernetes Distribution"
   show_if: false
@@ -35,7 +35,7 @@ questions:
     default: "1.1.0"
     description: "StorageOS Operator image tag"
     type: string
-    label: StorageOS Operator Image Tag      
+    label: StorageOS Operator Image Tag
 
 # Default minimal cluster configuration.
 - variable: cluster.create
@@ -115,7 +115,7 @@ questions:
     description: "Name of the secret that contains the etcd TLS certs. This secret is typically shared with etcd."
     type: string
     label: External etcd TLS secret name
-    show_if: "cluster.kvBackend.embedded=false"    
+    show_if: "cluster.kvBackend.embedded=false"
   - variable: cluster.kvBackend.tlsSecretNamespace
     required: false
     default: ""

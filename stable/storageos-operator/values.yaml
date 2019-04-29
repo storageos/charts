@@ -4,7 +4,7 @@
 
 name: storageos-operator
 
-distro: default
+k8sDistro: default
 
 serviceAccount:
   create: true

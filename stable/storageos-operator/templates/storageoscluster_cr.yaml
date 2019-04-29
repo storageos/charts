@@ -11,6 +11,10 @@ spec:
   secretRefNamespace: {{ .Release.Namespace }}
   disableTelemetry: {{ .Values.cluster.disableTelemetry }}
 
+  {{- if .Values.k8sDistro }}
+  k8sDistro: {{ .Values.k8sDistro }}
+  {{- end }}
+
   {{- if .Values.cluster.images.node.repository }}
   images:
     nodeContainer: "{{ .Values.cluster.images.node.repository }}:{{ .Values.cluster.images.node.tag }}"
