@@ -92,3 +92,53 @@ cluster:
 
   csi:
     enable: true
+
+# The following is used for cleaning up unmanaged cluster resources when
+# auto-install is enabled.
+cleanup:
+  - name: daemonset
+    command:
+      - "daemonset"
+      - "storageos-daemonset"
+  - name: statefulset
+    command:
+      - "statefulset"
+      - "storageos-statefulset"
+  - name: serviceaccount
+    command:
+      - "serviceaccount"
+      - "storageos-daemonset-sa"
+      - "storageos-statefulset-sa"
+  - name: role
+    command:
+      - "role"
+      - "storageos:key-management"
+  - name: rolebinding
+    command:
+      - "rolebinding"
+      - "storageos:key-management"
+  - name: secret
+    command:
+      - "secret"
+      - "init-secret"
+  - name: service
+    command:
+      - "service"
+      - "storageos"
+  - name: clusterrole
+    command:
+      - "clusterrole"
+      - "storageos:driver-registrar"
+      - "storageos:csi-attacher"
+      - "storageos:csi-provisioner"
+  - name: clusterrolebinding
+    command:
+      - "clusterrolebinding"
+      - "storageos:csi-provisioner"
+      - "storageos:csi-attacher"
+      - "storageos:driver-registrar"
+      - "storageos:k8s-driver-registrar"
+  - name: storageclass
+    command:
+      - "storageclass"
+      - "fast"
