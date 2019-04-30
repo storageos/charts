@@ -34,6 +34,14 @@ This will install the StorageOSCluster operator in `storageos-operator` namespac
 
 > **Tip**: List all releases using `helm list`
 
+This chart installs some CRDs before installing the operator. Due to this, a
+chart reinstall could fail due to existing CRD resources. Pass `--no-crd-hook`
+flag to continue installing the chart without the CRDs.
+
+```console
+$ helm install storageos/storageoscluster-operator --namespace storageos-operator --no-crd-hook
+```
+
 
 ## Creating a StorageOS cluster
 
