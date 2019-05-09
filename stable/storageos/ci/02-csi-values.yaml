@@ -1,6 +1,7 @@
 ---
 csi:
   enable: true
+  helperDeployment: deployment
   provisionCreds:
     enable: true
     username: username1

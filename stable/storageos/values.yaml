@@ -137,6 +137,10 @@ ingress:
 
 csi:
   enable: false
+  # helperDeployment is the strategy used to deploy the CSI helpers. By default
+  # the helpers are deployed as StatefulSet for backwards compatibility. It can
+  # be set to "deployment" to deploy them as Deployment.
+  helperDeployment: statefulset
   version: v1
   # provisionCreds are credentials for volume create and delete operations.
   provisionCreds:
