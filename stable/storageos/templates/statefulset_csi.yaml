@@ -1,7 +1,7 @@
-# Create csi-helper StatefulSet if CSI is enabled and csi.helperDeployment is
+# Create csi-helper StatefulSet if CSI is enabled and csi.deploymentStrategy is
 # not equal to "deployment". StatefulSet is the default for backwards
 # compatibility.
-{{- if and .Values.csi.enable (ne .Values.csi.helperDeployment "deployment") }}
+{{- if and .Values.csi.enable (ne .Values.csi.deploymentStrategy "deployment") }}
 
 kind: StatefulSet
 apiVersion: apps/v1beta1

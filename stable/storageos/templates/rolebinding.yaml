@@ -45,7 +45,7 @@ subjects:
     name: {{ template "storageos.fullname" . }}-daemonset-sa
     namespace: {{ .Release.Namespace }}
   - kind: ServiceAccount
-    {{- if eq .Values.csi.helperDeployment "deployment" }}
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
     name: {{ template "storageos.fullname" . }}-csi-helper-sa
     {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa

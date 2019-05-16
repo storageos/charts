@@ -120,7 +120,7 @@ Parameter | Description | Default
 `storageclass.fsType` | Default filesystem type for storage class | `ext4`
 `resources` | Pod resource requests & limits | `{}`
 `csi.enable` | Enable CSI driver installation | `false`
-`csi.helperDeployment` | CSI helper sidecar deployment option (`statefulset` or `deployment`) | `statefulset`
+`csi.deploymentStrategy` | CSI helper sidecar deployment strategy (`statefulset` or `deployment`) | `statefulset`
 `csi.provisionCreds.enable` | Enable credentials for volume provision operations | `false`
 `csi.provisionCreds.username` | Username for CSI provision operation authentication |
 `csi.provisionCreds.password` | Password for CSI provision operatiion authentication |

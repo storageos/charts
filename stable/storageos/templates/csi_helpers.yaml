@@ -1,6 +1,6 @@
-# Create csi-helper Deployment if CSI is enabled and csi.helperDeployment is
+# Create csi-helper Deployment if CSI is enabled and csi.deploymentStrategy is
 # "deployment".
-{{- if and .Values.csi.enable (eq .Values.csi.helperDeployment "deployment") }}
+{{- if and .Values.csi.enable (eq .Values.csi.deploymentStrategy "deployment") }}
 
 kind: Deployment
 apiVersion: apps/v1

@@ -199,7 +199,7 @@ rules:
 
 ---
 
-{{- if eq .Values.csi.helperDeployment "deployment" }}
+{{- if eq .Values.csi.deploymentStrategy "deployment" }}
 
 # Service Account for CSI helper Deployment.
 kind: ServiceAccount
@@ -244,7 +244,7 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    {{- if eq .Values.csi.helperDeployment "deployment" }}
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
     name: {{ template "storageos.fullname" . }}-csi-helper-sa
     {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa
@@ -269,7 +269,7 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    {{- if eq .Values.csi.helperDeployment "deployment" }}
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
     name: {{ template "storageos.fullname" . }}-csi-helper-sa
     {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa
@@ -294,7 +294,7 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    {{- if eq .Values.csi.helperDeployment "deployment" }}
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
     name: {{ template "storageos.fullname" . }}-csi-helper-sa
     {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa
@@ -319,7 +319,7 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    {{- if eq .Values.csi.helperDeployment "deployment" }}
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
     name: {{ template "storageos.fullname" . }}-csi-helper-sa
     {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa
