@@ -1,12 +1,11 @@
-# Create csi-helper StatefulSet if CSI is enabled and csi.deploymentStrategy is
-# not equal to "deployment". StatefulSet is the default for backwards
-# compatibility.
-{{- if and .Values.csi.enable (ne .Values.csi.deploymentStrategy "deployment") }}
+# Create csi-helper Deployment if CSI is enabled and csi.deploymentStrategy is
+# "deployment".
+{{- if and .Values.csi.enable (eq .Values.csi.deploymentStrategy "deployment") }}
 
-kind: StatefulSet
-apiVersion: apps/v1beta1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: {{ template "storageos.fullname" . }}-statefulset
+  name: {{ template "storageos.fullname" . }}-csi-helper
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "storageos.name" . }}
@@ -14,7 +13,6 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
-  serviceName: {{ .Chart.Name }}
   replicas: 1
   selector:
     matchLabels:
@@ -26,9 +24,9 @@ spec:
         chart: {{ template "storageos.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
-        kind: statefulset
+        kind: deployment
     spec:
-      serviceAccount: {{ template "storageos.fullname" . }}-statefulset-sa
+      serviceAccount: {{ template "storageos.fullname" . }}-csi-helper-sa
       containers:
       - name: csi-external-provisioner
         image: "{{ .Values.csiExternalProvisioner.repository }}:{{ .Values.csiExternalProvisioner.tag }}"
@@ -78,5 +76,16 @@ spec:
           hostPath:
             path: /var/lib/kubelet/plugins_registry/storageos/
             type: DirectoryOrCreate
+      # Add toleration for quicker termination of pod and recovery in case of a
+      # node failure.
+      tolerations:
+        - effect: NoExecute
+          key: node.kubernetes.io/not-ready
+          operator: Exists
+          tolerationSeconds: 30
+        - effect: NoExecute
+          key: node.kubernetes.io/unreachable
+          operator: Exists
+          tolerationSeconds: 30
 
 {{- end }}

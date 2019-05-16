@@ -199,6 +199,23 @@ rules:
 
 ---
 
+{{- if eq .Values.csi.deploymentStrategy "deployment" }}
+
+# Service Account for CSI helper Deployment.
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: {{ template "storageos.fullname" . }}-csi-helper-sa
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "storageos.name" . }}
+    chart: {{ template "storageos.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+
+
+{{- else }}
+
 # Service Account for StorageOS StatefulSet.
 kind: ServiceAccount
 apiVersion: v1
@@ -211,9 +228,11 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 
+{{- end }}
+
 ---
 
-# Bind StatefulSet service account to External Provisioner role.
+# Bind CSI helper service account to External Provisioner role.
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -225,7 +244,11 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
+    name: {{ template "storageos.fullname" . }}-csi-helper-sa
+    {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa
+    {{- end }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
@@ -234,7 +257,7 @@ roleRef:
 
 ---
 
-# Bind StatefulSet service account to External Attacher role.
+# Bind CSI helper service account to External Attacher role.
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -246,7 +269,11 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
+    name: {{ template "storageos.fullname" . }}-csi-helper-sa
+    {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa
+    {{- end }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
@@ -255,7 +282,7 @@ roleRef:
 
 ---
 
-# Bind StatefulSet service account to Key Management role.
+# Bind CSI helper service account to Key Management role.
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -267,7 +294,11 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
+    name: {{ template "storageos.fullname" . }}-csi-helper-sa
+    {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa
+    {{- end }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
@@ -276,7 +307,7 @@ roleRef:
 
 ---
 
-# Binding Statefulset service account to Driver Registrar role.
+# Binding CSI helper service account to Driver Registrar role.
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -288,7 +319,11 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
+    {{- if eq .Values.csi.deploymentStrategy "deployment" }}
+    name: {{ template "storageos.fullname" . }}-csi-helper-sa
+    {{- else }}
     name: {{ template "storageos.fullname" . }}-statefulset-sa
+    {{- end }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
