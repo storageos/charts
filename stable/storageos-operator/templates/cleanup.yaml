@@ -114,7 +114,7 @@ spec:
     spec:
       serviceAccountName: storageos-cleanup-sa
       containers:
-      - name: "statefulset-{{ .name }}-cleanup"
+      - name: "storageos-{{ .name }}-cleanup"
         image: bitnami/kubectl:1.14.1
         command:
           - kubectl
@@ -124,6 +124,7 @@ spec:
           {{- range .command }}
           - {{ . | quote }}
           {{- end }}
+          - --ignore-not-found=true
       restartPolicy: Never
   backoffLimit: 4
 
