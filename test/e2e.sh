@@ -20,7 +20,7 @@ enable_lio() {
 run_kind() {
     echo "Download kind binary..."
     # docker run --rm -it -v "$(pwd)":/go/bin golang go get sigs.k8s.io/kind && sudo mv kind /usr/local/bin/
-    wget -O kind 'https://docs.google.com/uc?export=download&id=1C_Jrj68Y685N5KcOqDQtfjeAZNW2UvNB' --no-check-certificate && chmod +x kind && sudo mv kind /usr/local/bin/
+    wget -O kind 'https://docs.google.com/uc?export=download&id=1-oy-ui0ZE_T3Fglz1c8ZgnW8U-A4yS8u' --no-check-certificate && chmod +x kind && sudo mv kind /usr/local/bin/
 
     echo "Download kubectl..."
     curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/"${K8S_VERSION}"/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
@@ -28,11 +28,11 @@ run_kind() {
 
     echo "Create Kubernetes cluster with kind..."
     # kind create cluster --image=kindest/node:"$K8S_VERSION"
-    kind create cluster --image storageos/kind-node:"$K8S_VERSION" --config test/kind-config.yaml
+    kind create cluster --image storageos/kind-node:"$K8S_VERSION" --config test/kind-config.yaml --name kind-1
 
     echo "Export kubeconfig..."
     # shellcheck disable=SC2155
-    export KUBECONFIG="$(kind get kubeconfig-path)"
+    export KUBECONFIG="$(kind get kubeconfig-path --name="kind-1")"
     echo
 
     echo "Get cluster info..."

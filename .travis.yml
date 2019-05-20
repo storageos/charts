@@ -3,10 +3,10 @@ sudo: required
 env:
   global:
     - CHANGE_MINIKUBE_NONE_USER=true
-    - K8S_VERSION="v1.13.2"
+    - K8S_VERSION="v1.14.2"
     # - MINIKUBE_VERSION="v0.28.2"
-    - CHART_TESTING_IMAGE="storageos/chart-testing"
-    - CHART_TESTING_TAG="v2.1.0-defer-fix"
+    - CHART_TESTING_IMAGE="quay.io/helmpack/chart-testing"
+    - CHART_TESTING_TAG="v2.3.3"
     - CHARTS_REPO="https://github.com/storageos/charts"
 
 before_install:
