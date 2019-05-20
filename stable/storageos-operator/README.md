@@ -171,7 +171,7 @@ Parameter | Description | Default
 `cluster.toleration.value` | Value of the pod toleration parameter |
 `cluster.disableTelemetry` | If true, no telemetry data will be collected from the cluster | `false`
 `cluster.images.node.repository` | StorageOS Node container image repository | `storageos/node`
-`cluster.images.node.tag` | StorageOS Node container image tag | `1.2.0`
+`cluster.images.node.tag` | StorageOS Node container image tag | `1.2.1`
 `cluster.csi.enable` | If true, CSI driver is enabled | `true`
 `cluster.csi.deploymentStrategy` | Whether CSI helpers should be deployed as a `deployment` or `statefulset` | `deployment`
 
