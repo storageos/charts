@@ -32,7 +32,7 @@ questions:
     type: string
     label: StorageOS Operator Image Name
   - variable: operator.image.tag
-    default: "1.1.0"
+    default: "1.2.0"
     description: "StorageOS Operator image tag"
     type: string
     label: StorageOS Operator Image Tag
@@ -73,7 +73,7 @@ questions:
     type: string
     label: StorageOS Node Container Image Name
   - variable: cluster.images.node.tag
-    default: "1.2.0"
+    default: "1.2.1"
     description: "StorageOS Node container image tag"
     type: string
     label: StorageOS Node Container Image Tag
@@ -94,7 +94,7 @@ questions:
   - variable: cluster.disableTelemetry
     default: false
     type: boolean
-    description: "Disable telemetry to be collected from the cluster."
+    description: "Disable telemetry data collection.  See https://docs.storageos.com/docs/reference/telemetry for more information."
     label: Disable Telemetry
 
   # KV store backend.
@@ -127,8 +127,8 @@ questions:
   # Node Selector Term.
   - variable: cluster.nodeSelectorTerm.key
     required: false
-    default: "node-role.kubernetes.io/worker"
-    description: "Key of the node selector term match expression used to select the nodes to install StorageOS on."
+    default: ""
+    description: "Key of the node selector term match expression used to select the nodes to install StorageOS on, e.g. `node-role.kubernetes.io/worker`"
     type: string
     label: Node selector term key
   - variable: cluster.nodeSelectorTerm.value
