@@ -34,17 +34,18 @@ rules:
 # that it's in group "extensions". Not sure if it's a Job specific behavior,
 # because the daemonsets deployed by the operator use "apps" apiGroup.
 - apiGroups:
-  - "extensions"
+  - extensions
   resources:
-  - "daemonsets"
+  - daemonsets
   verbs:
-  - "delete"
+  - delete
 - apiGroups:
-  - "apps"
+  - apps
   resources:
-  - "statefulsets"
+  - statefulsets
+  - deployments
   verbs:
-  - "delete"
+  - delete
 - apiGroups:
   - rbac.authorization.k8s.io
   resources:
