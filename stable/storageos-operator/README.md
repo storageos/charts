@@ -23,6 +23,7 @@ configure a StorageOS cluster on kubernetes.
 
 ## Prerequisites
 
+- Helm 2.10+
 - Kubernetes 1.9+.
 - Privileged mode containers (enabled by default)
 - Kubernetes 1.9 only:
