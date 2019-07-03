@@ -13,7 +13,7 @@ enable_lio() {
     sudo mount --make-shared /sys
     sudo mount --make-shared /
     sudo mount --make-shared /dev
-    docker run --name enable_lio --privileged --rm --cap-add=SYS_ADMIN -v /lib/modules:/lib/modules -v /sys:/sys:rshared storageos/init:0.1
+    docker run --name enable_lio --privileged --rm --cap-add=SYS_ADMIN -v /lib/modules:/lib/modules -v /sys:/sys:rshared storageos/init:0.2
     echo
 }
 
