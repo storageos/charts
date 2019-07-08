@@ -121,7 +121,7 @@ Operator chart and their default values.
 Parameter | Description | Default
 --------- | ----------- | -------
 `image.repository` | StorageOS Cluster Operator container image repository | `storageos/cluster-operator`
-`image.tag` | StorageOS Cluster Operator container image tag | `1.2.0`
+`image.tag` | StorageOS Cluster Operator container image tag | `1.3.0`
 `image.pullPolicy` | StorageOS Cluster Operator container image pull policy | `IfNotPresent`
 `podSecurityPolicy.enabled` | If true, create & use PodSecurityPolicy resources | `false`
 `podSecurityPolicy.annotations` | Specify pod annotations in the pod security policy | `{}`
