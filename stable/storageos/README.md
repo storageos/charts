@@ -112,10 +112,10 @@ Parameter | Description | Default
 --------- | ----------- | -------
 `cluster.join` | The cluster join string.  See [cluster discovery](https://docs.storageos.com/docs/install/prerequisites/clusterdiscovery) documentation for details.
 `image.repository` | StorageOS container image repository | `storageos/node`
-`image.tag` | StorageOS container image tag | `1.2.1`
+`image.tag` | StorageOS container image tag | `1.3.0`
 `image.pullPolicy` | StorageOS container image pull policy | `IfNotPresent`
 `initContainer.repository` | StorageOS init container image repository | `storageos/init`
-`initContainer.tag` | StorageOS init container image tag | `0.1`
+`initContainer.tag` | StorageOS init container image tag | `0.2`
 `initContainer.pullPolicy` | StorageOS init container image pull policy | `IfNotPresent`
 `rbacEnabled` | Use of k8s RBAC features | `true`
 `storageclass.name` | StorageOS storage class name | `fast`
