@@ -1,4 +1,7 @@
 ---
+cluster:
+  disableTCMU: true
+
 csi:
   enable: false
 

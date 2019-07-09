@@ -1,6 +1,6 @@
 {{- if not .Values.csi.enable }}
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ template "storageos.fullname" . }}
@@ -111,6 +111,14 @@ spec:
         {{- if .Values.kvBackend.backend }}
         - name: KV_BACKEND
           value: {{ .Values.kvBackend.backend }}
+        {{- end }}
+        {{- if .Values.cluster.disableTCMU }}
+        - name: DISABLE_TCMU
+          value: {{ quote .Values.cluster.disableTCMU }}
+        {{- end }}
+        {{- if .Values.cluster.forceTCMU }}
+        - name: FORCE_TCMU
+          value: {{ quote .Values.cluster.forceTCMU }}
         {{- end }}
         volumeMounts:
           - name: fuse

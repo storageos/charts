@@ -211,6 +211,14 @@ spec:
         - name: KV_BACKEND
           value: {{ .Values.kvBackend.backend }}
         {{- end }}
+        {{- if .Values.cluster.disableTCMU }}
+        - name: DISABLE_TCMU
+          value: {{ quote .Values.cluster.disableTCMU }}
+        {{- end }}
+        {{- if .Values.cluster.forceTCMU }}
+        - name: FORCE_TCMU
+          value: {{ quote .Values.cluster.forceTCMU }}
+        {{- end }}
         securityContext:
           privileged: true
           capabilities:
