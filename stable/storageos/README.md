@@ -111,6 +111,8 @@ The following tables lists the configurable parameters of the StorageOS chart an
 Parameter | Description | Default
 --------- | ----------- | -------
 `cluster.join` | The cluster join string.  See [cluster discovery](https://docs.storageos.com/docs/install/prerequisites/clusterdiscovery) documentation for details.
+`cluster.disableTCMU` | Disable TCMU to allow co-existence with other storage systems but degrades performance | `false`
+`cluster.forceTCMU` | Forces TCMU to be enabled or causes StorageOS to abort startup | `false`
 `image.repository` | StorageOS container image repository | `storageos/node`
 `image.tag` | StorageOS container image tag | `1.3.0`
 `image.pullPolicy` | StorageOS container image pull policy | `IfNotPresent`
