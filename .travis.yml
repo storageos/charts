@@ -15,8 +15,17 @@ before_install:
             echo "Only doc files were updated, not running the CI."
             exit
         fi
+    - curl -Lo yq https://github.com/mikefarah/yq/releases/download/2.3.0/yq_linux_amd64 && chmod +x yq && sudo mv yq /usr/local/bin/
     # Disabling this for kind. This should be run inside the kind environment.
     # - docker run -d -p 2399:2399 quay.io/coreos/etcd:v3.3.10 /usr/local/bin/etcd -advertise-client-urls http://0.0.0.0:2399 -listen-client-urls http://0.0.0.0:2399
 
-script:
-    - ./test/e2e.sh
+jobs:
+  include:
+    - script: ./test/e2e.sh
+    - stage: release
+      script: skip
+      deploy:
+        provider: script
+        script: bash scripts/release.sh
+        on:
+          branch: master
