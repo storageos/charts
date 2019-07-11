@@ -105,7 +105,7 @@ questions:
     label: "Use embedded KV store"
   - variable: cluster.kvBackend.address
     default: "10.0.0.1:2379"
-    description: "List of etcd targets, in the form ip[:port], separated by semi-colons.  Prefer multiple direct endpoints over a single load-balanced endpoint.  Only used if not using embedded KV store."
+    description: "List of etcd targets, in the form ip[:port], separated by commas.  Prefer multiple direct endpoints over a single load-balanced endpoint.  Only used if not using embedded KV store."
     type: string
     label: External etcd address(es)
     show_if: "cluster.kvBackend.embedded=false"
