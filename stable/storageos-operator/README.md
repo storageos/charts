@@ -162,7 +162,7 @@ Parameter | Description | Default
 `cluster.admin.password` | Password to authenticate to the StorageOS API with |
 `cluster.sharedDir` | The path shared into to kubelet container when running kubelet in a container |
 `cluster.kvBackend.embedded` | Use StorageOS embedded etcd | `true`
-`cluster.kvBackend.address` | External etcd address |
+`cluster.kvBackend.address` | List of etcd targets, in the form ip[:port], separated by commas |
 `cluster.kvBackend.backend` | Key-Value store backend name | `etcd`
 `cluster.kvBackend.tlsSecretName` | Name of the secret containing kv backend tls cert |
 `cluster.kvBackend.tlsSecretNamespace` | Namespace of the secret containing kv backend tls cert |
