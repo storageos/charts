@@ -61,7 +61,6 @@ git add *
 git status
 # Sign-off the commit.
 git commit -m "$BASE_COPY_MSG" -s
-git show --summary
 popd
 
 # Copy new chart changes.
