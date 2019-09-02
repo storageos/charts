@@ -100,7 +100,7 @@ Parameter | Description | Default
 `cluster.disableTCMU` | Disable TCMU to allow co-existence with other storage systems but degrades performance | `false`
 `cluster.forceTCMU` | Forces TCMU to be enabled or causes StorageOS to abort startup | `false`
 `image.repository` | StorageOS container image repository | `storageos/node`
-`image.tag` | StorageOS container image tag | `1.3.0`
+`image.tag` | StorageOS container image tag | `1.4.0`
 `image.pullPolicy` | StorageOS container image pull policy | `IfNotPresent`
 `initContainer.repository` | StorageOS init container image repository | `storageos/init`
 `initContainer.tag` | StorageOS init container image tag | `0.2`
