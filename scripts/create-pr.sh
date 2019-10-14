@@ -12,6 +12,7 @@ set -e
 # SIGN_OFF_NAME: git commit sign-off name
 # VERSION: chart version
 # TARGET_REPO: upstream charts repo
+# TARGET_BRANCH: upstream repo branch
 # UPSTREAM_REPO_PATH: upstream charts repo path
 # UPSTREAM_CHART_PATH: target charts dir path in the upstream charts repo
 # CHART_ROOT: path to the directory containing the chart.
@@ -31,6 +32,11 @@ git config --global user.name "$SIGN_OFF_NAME"
 
 # Clone rancher charts repo.
 git clone $TARGET_REPO $UPSTREAM_REPO_PATH
+
+# Change branch to target branch.
+pushd $UPSTREAM_REPO_PATH
+git checkout --track origin/$TARGET_BRANCH
+popd
 
 # Get the latest release and new version.
 latest=$(ls $UPSTREAM_REPO_PATH/$UPSTREAM_CHART_PATH/$CHART_NAME | sort -nr | head -n1)
@@ -56,7 +62,8 @@ cp -r $latest_path $new_path
 BASE_COPY_MSG="${CHART_NAME}: base copy ${latest} to ${new_version}"
 echo "Commit: ${BASE_COPY_MSG}"
 pushd $UPSTREAM_REPO_PATH
-git checkout -b $new_version
+# Create a new branch from the target branch(being explicit).
+git checkout -b $new_version $TARGET_BRANCH
 git add *
 git status
 # Sign-off the commit.
@@ -75,12 +82,11 @@ if ! git diff-index --quiet HEAD --; then
     echo "Creating pull request to the rancher chart.."
     git status
     hub remote add fork $FORK_REPO
-    git checkout -b $VERSION
     git add *
     git status
     # Sign-off the commit.
     git commit -m "$MESSAGE" -s
-    git push fork $VERSION
+    git push fork $new_version
     hub pull-request -m "$MESSAGE"
 else
     echo "${CHART_NAME} chart is in sync with rancher charts. Do nothing."
