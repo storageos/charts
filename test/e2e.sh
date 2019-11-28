@@ -92,9 +92,97 @@ cleanup_kind() {
     echo 'Done!'
 }
 
-main() {
-    enable_lio
+# Install helm cli.
+install_helm() {
+    echo 'Installing helm...'
+    curl -sSLo tmp/helm.tar.gz "https://get.helm.sh/helm-$HELM_VERSION-linux-amd64.tar.gz"
+    tar xf tmp/helm.tar.gz -C tmp
+    sudo mv tmp/linux-amd64/helm /usr/local/bin
+}
 
+# Install kubeval.
+install_kubeval() {
+    echo 'Installing kubeval...'
+    curl -sSLo tmp/kubeval.tar.gz "https://github.com/instrumenta/kubeval/releases/download/$KUBEVAL_VERSION/kubeval-linux-amd64.tar.gz"
+    tar xf tmp/kubeval.tar.gz -C tmp && chmod +x tmp/kubeval
+    sudo mv tmp/kubeval /usr/local/bin/kubeval
+}
+
+# Get a list of charts that changed.
+get_changed_charts() {
+    local changed_charts=("")
+    while IFS='' read -r line; do changed_charts+=("$line"); done < <(docker run --rm -v "$(pwd):/workdir" --workdir /workdir "${CHART_TESTING_IMAGE}:${CHART_TESTING_TAG}" ct list-changed --chart-dirs stable )
+    echo "${changed_charts[*]}"
+}
+
+# Render helm chart templates and validate the manifests.
+validate_manifests() {
+    kubeval_flags="--strict --skip-kinds CustomResourceDefinition"
+    local changed_charts=("")
+    while IFS='' read -r line; do changed_charts+=("$line"); done < <(get_changed_charts)
+    echo "------------------------------------------------------------------------------------------------------------------------"
+    echo " Validating Manifests!"
+    echo " Charts to be processed: ${changed_charts[*]}"
+    echo "------------------------------------------------------------------------------------------------------------------------"
+    pushd tmp
+    # Validate all the changed charts.
+    for chart_name in ${changed_charts[*]} ; do
+        echo "Validating chart ${chart_name}"
+        rm -rf stable
+        mkdir stable
+        # Render chart with default values and validate.
+        helm template "${REPO_ROOT}/${chart_name}" --output-dir stable > /dev/null 2>&1
+        TEMPLATE_FILES="${chart_name}/templates"
+        if [ -d "${TEMPLATE_FILES}" ]
+        then
+            echo "------------------------------------------------------------------------------------------------------------------------"
+            echo "==> Processing with default values..."
+            echo "------------------------------------------------------------------------------------------------------------------------"
+            kubeval ${kubeval_flags} -d ${TEMPLATE_FILES}
+            # If the chart contains ci/ dir, render the manifests with the
+            # values in ci/ dir and validate again.
+            if [ -d "${REPO_ROOT}/${chart_name}/ci" ]
+            then
+                FILES="${REPO_ROOT}/${chart_name}/ci/*"
+                for file in $FILES
+                do
+                    echo "------------------------------------------------------------------------------------------------------------------------"
+                    echo "==> Processing with $file..."
+                    echo "------------------------------------------------------------------------------------------------------------------------"
+                    rm -rf stable
+                    mkdir stable
+                    helm template "${REPO_ROOT}/${chart_name}" -f "$file" --output-dir stable > /dev/null 2>&1
+                    TEMPLATE_FILES="${chart_name}/templates/*"
+                    kubeval ${kubeval_flags} ${TEMPLATE_FILES}
+                done
+            fi
+        fi
+    done
+    popd
+    echo "------------------------------------------------------------------------------------------------------------------------"
+    echo "Done Manifests validating!"
+    echo
+}
+
+main() {
+    # Download all the binaries and write all the rendered charts in tmp/.
+    mkdir -p tmp
+
+    # Install helm cli. This is required to render chart manifests and perform
+    # kubeval validation check.
+    install_helm
+    install_kubeval
+
+    echo "Add git remote k8s ${CHARTS_REPO}"
+    git remote add storageos "${CHARTS_REPO}" &> /dev/null || true
+    git fetch storageos master
+    echo
+
+    # Validate manifests with kubeval.
+    validate_manifests
+
+    # Setup e2e test.
+    enable_lio
     run_ct_container
 
     # Cleanup at exit.
@@ -114,11 +202,6 @@ main() {
     install_tiller
 
     echo "Ready for testing"
-
-    echo "Add git remote k8s ${CHARTS_REPO}"
-    git remote add storageos "${CHARTS_REPO}" &> /dev/null || true
-    git fetch storageos master
-    echo
 
     docker_exec ct install --config /workdir/test/ct.yaml
 

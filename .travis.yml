@@ -4,7 +4,8 @@ env:
   global:
     - CHANGE_MINIKUBE_NONE_USER=true
     - K8S_VERSION="v1.16.3"
-    # - MINIKUBE_VERSION="v0.28.2"
+    - KUBEVAL_VERSION="0.14.0"
+    - HELM_VERSION="v2.16.1"
     - CHART_TESTING_IMAGE="quay.io/helmpack/chart-testing"
     - CHART_TESTING_TAG="v2.4.0"
     - CHARTS_REPO="https://github.com/storageos/charts"
