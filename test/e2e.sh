@@ -117,7 +117,7 @@ get_changed_charts() {
 
 # Render helm chart templates and validate the manifests.
 validate_manifests() {
-    kubeval_flags="--strict --skip-kinds CustomResourceDefinition"
+    kubeval_flags="--strict --ignore-missing-schemas --skip-kinds CustomResourceDefinition"
     local changed_charts=("")
     while IFS='' read -r line; do changed_charts+=("$line"); done < <(get_changed_charts)
     echo "------------------------------------------------------------------------------------------------------------------------"
