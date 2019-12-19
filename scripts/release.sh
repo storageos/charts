@@ -18,7 +18,7 @@ docker run --rm -ti \
     -e GITHUB_TOKEN=$API_TOKEN \
     -e VERSION=$VERSION \
     -e TARGET_REPO="https://github.com/rancher/charts/" \
-    -e TARGET_BRANCH="partners" \
+    -e TARGET_BRANCH="master" \
     -e FORK_REPO=$FORK_REPO \
     -e UPSTREAM_REPO_PATH="/go/src/github.com/rancher/charts" \
     -e UPSTREAM_CHART_PATH="proposed" \
