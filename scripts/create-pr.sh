@@ -35,7 +35,10 @@ git clone $TARGET_REPO $UPSTREAM_REPO_PATH
 
 # Change branch to target branch.
 pushd $UPSTREAM_REPO_PATH
-git checkout --track origin/$TARGET_BRANCH
+# Checkout to the target branch if it's not master.
+if [ "$TARGET_BRANCH" != "master" ]; then
+    git checkout --track origin/$TARGET_BRANCH
+fi
 popd
 
 # Get the latest release and new version.
