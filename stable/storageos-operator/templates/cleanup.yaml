@@ -44,6 +44,8 @@ rules:
   - apps
   resources:
   - statefulsets
+  - deployments
+  - daemonsets
   verbs:
   - delete
 - apiGroups:

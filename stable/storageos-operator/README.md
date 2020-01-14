@@ -171,8 +171,8 @@ Parameter | Description | Default
 `cluster.toleration.key` | Key of the pod toleration parameter |
 `cluster.toleration.value` | Value of the pod toleration parameter |
 `cluster.disableTelemetry` | If true, no telemetry data will be collected from the cluster | `false`
-`cluster.images.node.repository` | StorageOS Node container image repository | `storageos/node`
-`cluster.images.node.tag` | StorageOS Node container image tag | `1.5.2`
+`cluster.images.node.repository` | StorageOS Node container image repository |
+`cluster.images.node.tag` | StorageOS Node container image tag |
 `cluster.images.init.repository` | StorageOS init container image repository |
 `cluster.images.init.tag` | StorageOS init container image tag |
 `cluster.images.csiV1ClusterDriverRegistrar.repository` | CSI v1 Cluster Driver Registrar image repository |
