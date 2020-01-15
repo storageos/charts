@@ -73,7 +73,7 @@ questions:
     type: string
     label: StorageOS Node Container Image Name
   - variable: cluster.images.node.tag
-    default: "1.5.2"
+    default: "1.5.3"
     description: "StorageOS Node container image tag"
     type: string
     label: StorageOS Node Container Image Tag
