@@ -204,9 +204,6 @@ main() {
     docker_exec kubectl cluster-info
     echo
 
-    # Install_tiller
-    install_tiller
-
     echo "Ready for testing"
 
     docker_exec ct install --config /workdir/test/ct.yaml
