@@ -149,7 +149,7 @@ Learn more about advanced configuration options
 To check cluster status, run:
 
 ```console
-$ kubectl get storageoscluster
+$ kubectl get storageoscluster --namespace storageos-operator
 NAME                READY     STATUS    AGE
 example-storageos   3/3       Running   4m
 ```
