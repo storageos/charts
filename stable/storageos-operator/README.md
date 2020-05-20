@@ -1,8 +1,8 @@
 # StorageOS Operator Helm Chart
 
-> **Note**: This chart defaults to StorageOS v2. To upgrade from a previous
-> chart or from StorageOS version 1.x to 2.x, please contact support for
-> assistance.
+> **Note**: This chart requires Helm 3 and defaults to StorageOS v2. To upgrade
+> from a previous chart or from StorageOS version 1.x to 2.x, please contact
+> support for assistance.
 
 [StorageOS](https://storageos.com) is a software-based storage platform
 designed for cloud-native applications. By deploying StorageOS on your
