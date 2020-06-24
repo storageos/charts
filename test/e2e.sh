@@ -131,7 +131,13 @@ validate_manifests() {
         rm -rf stable
         mkdir stable
         # Render chart with default values and validate.
-        helm template "${REPO_ROOT}/${chart_name}" --output-dir stable > /dev/null 2>&1
+        helm_template_vals=""
+        if [ "$chart_name" = "stable/storageos-operator" ]; then
+            # NOTE: With StorageOS v2, the KV backend became mandatory and admin
+            # password must be at least 8 characters.
+            helm_template_vals="--set cluster.kvBackend.address=foo:2379 --set cluster.admin.password=storageos"
+        fi
+        helm template "${REPO_ROOT}/${chart_name}" $helm_template_vals --output-dir stable > /dev/null 2>&1
         TEMPLATE_FILES="${chart_name}/templates"
         if [ -d "${TEMPLATE_FILES}" ]
         then
