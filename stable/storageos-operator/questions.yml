@@ -5,11 +5,12 @@ labels:
 questions:
 - variable: k8sDistro
   default: rancher
-  description: "k8sDistro is used to fine-tune configuration for specific
-  Kubernetes distributions. It is also included in anonymized telemetry data so
-  that we can focus development effort most effectively.
+  description: "Kubernetes Distribution is used to fine-tune configuration for
+  specific Kubernetes distributions. It is also included in anonymized
+  telemetry data so that we can focus development effort most effectively.
   Example values: rancher, openshift"
   type: string
+  label: Kubernetes Distribution
 
 # Operator image configuration.
 - variable: defaultImage
