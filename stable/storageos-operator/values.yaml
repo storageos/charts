@@ -167,6 +167,8 @@ cleanup:
         - "serviceaccount"
         - "storageos-daemonset-sa"
         - "storageos-statefulset-sa"
+        - "storageos-csi-helper-sa"
+        - "storageos-scheduler-sa"
     - name: role
       command:
         - "role"
@@ -193,6 +195,7 @@ cleanup:
         - "storageos:scheduler-extender"
         - "storageos:init"
         - "storageos:nfs-provisioner"
+        - "storageos:csi-resizer"
     - name: clusterrolebinding
       command:
         - "clusterrolebinding"
@@ -204,6 +207,7 @@ cleanup:
         - "storageos:scheduler-extender"
         - "storageos:init"
         - "storageos:nfs-provisioner"
+        - "storageos:csi-resizer"
     - name: storageclass
       command:
         - "storageclass"
