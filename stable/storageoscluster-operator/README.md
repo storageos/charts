@@ -1,5 +1,7 @@
 # StorageOSCluster Helm Chart
 
+> This Chart is deprecated in favour of the [storageos-operator](../storageos-operator) chart.
+
 [StorageOS](https://storageos.com) is a software-based storage platform designed for cloud-native applications.  By
 deploying StorageOS on your Kubernetes cluster, local storage from cluster node is aggregated into a distributed pool,
 and persistent volumes created from it using the native Kubernetes volume driver are available instantly to pods
