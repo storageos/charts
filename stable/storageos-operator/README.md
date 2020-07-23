@@ -1,8 +1,8 @@
 # StorageOS Operator Helm Chart
 
-> **Note**: This chart defaults to StorageOS v2. To upgrade from a previous
-> chart or from StorageOS version 1.x to 2.x, please contact support for
-> assistance.
+> **Note**: This chart requires Helm 3 and defaults to StorageOS v2. To upgrade
+> from a previous chart or from StorageOS version 1.x to 2.x, please contact
+> support for assistance.
 
 [StorageOS](https://storageos.com) is a software-based storage platform
 designed for cloud-native applications. By deploying StorageOS on your
@@ -19,14 +19,10 @@ configure a StorageOS cluster on kubernetes.
 
 ## Prerequisites
 
-- Helm 2.10+
-- Kubernetes 1.9+.
+- Helm 3
+- Kubernetes 1.13+
 - Privileged mode containers (enabled by default)
 - Etcd cluster
-- Kubernetes 1.9 only:
-  - Feature gate: MountPropagation=true.  This can be done by appending
-    `--feature-gates MountPropagation=true` to the kube-apiserver and kubelet
-    services.
 
 Refer to the [StorageOS prerequisites
 docs](https://docs.storageos.com/docs/prerequisites/) for more information.
@@ -37,13 +33,14 @@ docs](https://docs.storageos.com/docs/prerequisites/) for more information.
 # Add storageos charts repo.
 $ helm repo add storageos https://charts.storageos.com
 # Install the chart in a namespace.
-$ helm install storageos/storageos-operator \
+$ kubectl create namespace storageos-operator
+$ helm install my-storageos storageos/storageos-operator \
     --namespace storageos-operator \
     --set cluster.kvBackend.address=<etcd-node-ip>:2379 \
     --set cluster.admin.password=<password>
 ```
 
-This will install the StorageOSCluster operator in `storageos-operator`
+This will install the StorageOS cluster operator in `storageos-operator`
 namespace and deploys StorageOS with a minimal configuration. Etcd address
 (kvBackend) and admin password are mandatory values to install the chart. To
 avoid passing the password as a flag, create a values.yaml file and pass the
@@ -70,7 +67,28 @@ $ helm install storageos/storageos-operator \
     --values <values-file>
 ```
 
-> **Tip**: List all releases using `helm list`
+```yaml
+cluster:
+  kvBackend:
+    address: <etcd-node-ip>:2379
+  admin:
+    password: <password>
+```
+
+The password must be at least 8 characters long and the default username is
+`storageos`, which can be changed like the above values. Find more information
+about installing etcd in our [etcd
+docs](https://docs.storageos.com/docs/prerequisites/etcd/).
+
+Install the chart with the values file:
+
+```console
+$ helm install my-storageos storageos/storageos-operator \
+    --namespace storageos-operator \
+    --values <values-file>
+```
+
+> **Tip**: List all releases using `helm list -A`
 
 ## Creating a StorageOS cluster manually
 
@@ -149,7 +167,7 @@ Learn more about advanced configuration options
 To check cluster status, run:
 
 ```console
-$ kubectl get storageoscluster
+$ kubectl get storageoscluster --namespace storageos-operator
 NAME                READY     STATUS    AGE
 example-storageos   3/3       Running   4m
 ```
@@ -228,7 +246,7 @@ storageos cluster and all the associated resources.
 In the above example,
 
 ```console
-kubectl delete storageoscluster example-storageos
+$ kubectl delete storageoscluster example-storageos
 ```
 
 would delete the custom resource and the cluster.
@@ -238,8 +256,11 @@ would delete the custom resource and the cluster.
 To uninstall/delete the storageos cluster operator deployment:
 
 ```console
-helm delete --purge <release-name>
+$ helm uninstall <release-name> --namespace storageos-operator
 ```
+
+If the chart was installed with cluster auto-provisioning enabled, chart
+uninstall will clean-up the installed StorageOS cluster resources as well.
 
 Learn more about configuring the StorageOS Operator on
 [GitHub](https://github.com/storageos/cluster-operator).

@@ -2,6 +2,8 @@ categories:
 - storage
 labels:
   io.rancher.certified: partner
+  io.cattle.role: cluster
+rancher_min_version: 2.4.0
 questions:
 - variable: k8sDistro
   default: rancher

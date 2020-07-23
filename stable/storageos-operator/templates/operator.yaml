@@ -67,6 +67,10 @@ spec:
             - name: RELATED_IMAGE_CSIV1_LIVENESS_PROBE
               value: "{{ .Values.cluster.images.csiV1LivenessProbe.repository }}:{{ .Values.cluster.images.csiV1LivenessProbe.tag }}"
             {{- end }}
+            {{- if and .Values.cluster.images.csiV1ExternalResizer.repository .Values.cluster.images.csiV1ExternalResizer.tag }}
+            - name: RELATED_IMAGE_CSIV1_EXTERNAL_RESIZER
+              value: "{{ .Values.cluster.images.csiV1ExternalResizer.repository }}:{{ .Values.cluster.images.csiV1ExternalResizer.tag }}"
+            {{- end }}
             {{- if and .Values.cluster.images.csiV0DriverRegistrar.repository .Values.cluster.images.csiV0DriverRegistrar.tag }}
             - name: RELATED_IMAGE_CSIV0_DRIVER_REGISTRAR
               value: "{{ .Values.cluster.images.csiV0DriverRegistrar.repository }}:{{ .Values.cluster.images.csiV0DriverRegistrar.tag }}"

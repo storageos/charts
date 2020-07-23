@@ -12,7 +12,8 @@ serviceAccount:
 
 podSecurityPolicy:
   enabled: false
-  annotations: {}
+  annotations:
+    {}
     ## Specify pod annotations
     ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#apparmor
     ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#seccomp
@@ -24,7 +25,6 @@ podSecurityPolicy:
 
 # operator-specific configuation parameters.
 operator:
-
   image:
     repository: storageos/cluster-operator
     tag: v2.1.0
@@ -46,7 +46,6 @@ cluster:
 
   # Default admin account.
   admin:
-
     # Username to authenticate to the StorageOS API with.
     username: storageos
 
@@ -130,7 +129,6 @@ cluster:
       tag:
 
   csi:
-    enable: true
     deploymentStrategy: deployment
 
 # The following is used for cleaning up unmanaged cluster resources when
