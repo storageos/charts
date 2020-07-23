@@ -1,5 +1,5 @@
 remote: storageos
-target-branch: master
+target-branch: helm2
 chart-dirs:
   - stable
 # excluded-charts:

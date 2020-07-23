@@ -9,7 +9,7 @@ jobs:
           name: lint
           command: |
             git remote add storageos https://github.com/storageos/charts
-            git fetch storageos master
+            git fetch storageos helm2
             ct lint --config test/ct.yaml
 
   deploy:

@@ -1,9 +1,13 @@
 # StorageOS Helm Charts
 
-[![Build Status](https://travis-ci.org/storageos/charts.svg?branch=master)](https://travis-ci.org/storageos/charts)
-[![CircleCI](https://circleci.com/gh/storageos/charts.svg?style=svg)](https://circleci.com/gh/storageos/charts)
+[![Build Status](https://travis-ci.org/storageos/charts.svg?branch=helm2)](https://travis-ci.org/storageos/charts)
+[![CircleCI](https://circleci.com/gh/storageos/charts/tree/helm2.svg?style=svg)](https://circleci.com/gh/storageos/charts/tree/helm2)
+
 
 This repository hosts the official StorageOS Helm Charts.
+
+**NOTE**: This branch is for supporting rancher charts with helm2. For helm3
+chart, use the chart in the main branch.
 
 ## Install
 
