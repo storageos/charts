@@ -21,7 +21,7 @@ enable_lio() {
 run_kind() {
     echo "Download kind binary..."
     # docker run --rm -it -v "$(pwd)":/go/bin golang go get sigs.k8s.io/kind && sudo mv kind /usr/local/bin/
-    wget -O kind 'https://github.com/kubernetes-sigs/kind/releases/download/v0.6.1/kind-linux-amd64' --no-check-certificate && chmod +x kind && sudo mv kind /usr/local/bin/
+    wget -O kind 'https://github.com/kubernetes-sigs/kind/releases/download/v0.8.1/kind-linux-amd64' --no-check-certificate && chmod +x kind && sudo mv kind /usr/local/bin/
 
     echo "Download kubectl..."
     curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/"${K8S_VERSION}"/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
