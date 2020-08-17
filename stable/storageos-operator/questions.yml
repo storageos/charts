@@ -36,7 +36,7 @@ questions:
     type: string
     label: StorageOS Operator Image Name
   - variable: operator.image.tag
-    default: "v2.1.0"
+    default: "v2.2.0"
     description: "StorageOS Operator image tag"
     type: string
     label: StorageOS Operator Image Tag
@@ -70,7 +70,7 @@ questions:
     type: string
     label: StorageOS Node Container Image Name
   - variable: cluster.images.node.tag
-    default: "v2.1.0"
+    default: "v2.2.0"
     description: "StorageOS Node container image tag"
     type: string
     label: StorageOS Node Container Image Tag
