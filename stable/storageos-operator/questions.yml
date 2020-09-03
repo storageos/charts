@@ -89,6 +89,7 @@ questions:
     type: string
     label: Username
   - variable: cluster.admin.password
+    required: true
     default: ""
     description: "Password of the StorageOS administrator account. Must be at
     least 8 characters long"
