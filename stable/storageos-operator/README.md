@@ -252,6 +252,8 @@ Parameter | Description | Default
 `cluster.disableTelemetry` | If true, no telemetry data will be collected from the cluster | `false`
 `cluster.images.node.repository` | StorageOS Node container image repository |
 `cluster.images.node.tag` | StorageOS Node container image tag |
+`cluster.images.apiManager.repository` | StorageOS API Manager container image repository |
+`cluster.images.apiManager.tag` | StorageOS API Manager container image tag |
 `cluster.images.init.repository` | StorageOS init container image repository |
 `cluster.images.init.tag` | StorageOS init container image tag |
 `cluster.images.csiV1ClusterDriverRegistrar.repository` | CSI v1 Cluster Driver Registrar image repository |

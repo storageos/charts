@@ -38,7 +38,7 @@ questions:
     type: string
     label: StorageOS Operator Image Name
   - variable: operator.image.tag
-    default: "v2.2.0"
+    default: "v2.3.0"
     description: "StorageOS Operator image tag"
     type: string
     label: StorageOS Operator Image Tag
@@ -72,7 +72,7 @@ questions:
     type: string
     label: StorageOS Node Container Image Name
   - variable: cluster.images.node.tag
-    default: "v2.2.0"
+    default: "v2.3.0"
     description: "StorageOS Node container image tag"
     type: string
     label: StorageOS Node Container Image Tag
@@ -112,7 +112,6 @@ questions:
     type: boolean
     description: "Enable etcd TLS"
     label: "TLS should be configured for external etcd to protect configuration data (Optional)."
-    show_if: "cluster.kvBackend.embedded=false"
   - variable: cluster.kvBackend.tlsSecretName
     required: false
     default: ""
