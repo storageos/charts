@@ -164,13 +164,6 @@ metadata:
 spec:
   secretRefName: "storageos-api"
   secretRefNamespace: "storageos-operator"
-  csi:
-    enable: true
-    deploymentStrategy: "deployment"
-    enableProvisionCreds: true
-    enableControllerPublishCreds: true
-    enableNodePublishCreds: true
-    enableControllerExpandCreds: true
   kvBackend:
     address: "etcd-client.etcd.svc.cluster.local:2379"
     # address: '10.42.15.23:2379,10.42.12.22:2379,10.42.13.16:2379' # You can set ETCD server IPs.
@@ -241,6 +234,8 @@ Parameter | Description | Default
 `cluster.disableTelemetry` | If true, no telemetry data will be collected from the cluster | `false`
 `cluster.images.node.repository` | StorageOS Node container image repository |
 `cluster.images.node.tag` | StorageOS Node container image tag |
+`cluster.images.apiManager.repository` | StorageOS API Manager container image repository |
+`cluster.images.apiManager.tag` | StorageOS API Manager container image tag |
 `cluster.images.init.repository` | StorageOS init container image repository |
 `cluster.images.init.tag` | StorageOS init container image tag |
 `cluster.images.csiV1ClusterDriverRegistrar.repository` | CSI v1 Cluster Driver Registrar image repository |
