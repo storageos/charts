@@ -21,7 +21,7 @@ docker run --rm -ti \
     -e TARGET_BRANCH="master" \
     -e FORK_REPO=$FORK_REPO \
     -e UPSTREAM_REPO_PATH="/go/src/github.com/rancher/charts" \
-    -e UPSTREAM_CHART_PATH="proposed" \
+    -e UPSTREAM_CHART_PATH="charts" \
     -e CHART_NAME=$CHART_NAME \
     -e CHART_ROOT=stable/storageos-operator \
     -w /go/src/github.com/storageos/charts \
