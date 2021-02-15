@@ -27,7 +27,7 @@ podSecurityPolicy:
 operator:
   image:
     repository: storageos/cluster-operator
-    tag: v2.3.1
+    tag: v2.3.3
     pullPolicy: IfNotPresent
 
 # cluster-specific configuation parameters.
