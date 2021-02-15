@@ -5,3 +5,5 @@ chart-dirs:
 # excluded-charts:
 #   - common
 helm-extra-args: --timeout 160s
+chart-repos:
+  - stable=https://charts.helm.sh/stable
