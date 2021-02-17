@@ -4,4 +4,6 @@ chart-dirs:
   - stable
 # excluded-charts:
 #   - common
-helm-extra-args: --timeout 160
+helm-extra-args: --timeout 160s
+chart-repos:
+  - stable=https://charts.helm.sh/stable
