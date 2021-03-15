@@ -54,7 +54,7 @@ install_tiller() {
     # Install Tiller with RBAC
     kubectl -n kube-system create sa tiller
     kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-    docker_exec helm init --service-account tiller --config /workdir/test/ct.yaml
+    docker_exec helm init --service-account tiller
     echo "Wait for Tiller to be up and ready..."
     until kubectl -n kube-system get pods 2>&1 | grep -w "tiller-deploy"  | grep -w "1/1"; do sleep 1; done
     echo
@@ -111,7 +111,7 @@ install_kubeval() {
 # Get a list of charts that changed.
 get_changed_charts() {
     local changed_charts=("")
-    while IFS='' read -r line; do changed_charts+=("$line"); done < <(docker run --rm -v "$(pwd):/workdir" --workdir /workdir "${CHART_TESTING_IMAGE}:${CHART_TESTING_TAG}" ct list-changed --config /workdir/test/ct.yaml --chart-dirs stable )
+    while IFS='' read -r line; do changed_charts+=("$line"); done < <(docker run --rm -v "$(pwd):/workdir" --workdir /workdir "${CHART_TESTING_IMAGE}:${CHART_TESTING_TAG}" ct list-changed --chart-dirs stable )
     echo "${changed_charts[*]}"
 }
 
