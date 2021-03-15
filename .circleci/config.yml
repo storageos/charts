@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: gcr.io/kubernetes-charts-ci/test-image:v3.0.0
+      - image: ranchercharts/chart-testing:v2.0.2-rancher3
     steps:
       - checkout
       - run:
