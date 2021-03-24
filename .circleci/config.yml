@@ -10,7 +10,7 @@ jobs:
           command: |
             git remote add storageos https://github.com/storageos/charts
             git fetch storageos master
-            ct lint --config test/ct.yaml
+            # ct lint --config test/ct.yaml
 
   deploy:
     docker:
