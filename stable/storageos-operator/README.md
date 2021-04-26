@@ -35,10 +35,13 @@ additional capacity, features and support plans contact sales@storageos.com.
     changed blocks.
 * Multiple AccessModes - dynamically provision ReadWriteOnce or ReadWriteMany
     volumes.
+* Rapid Failover - quickly detects node failure and automates recovery actions
+    without administrator intervention.
+* Data Encryption - both in transit and at rest.
 * Scalability - disaggregated consensus means no single scheduling point of
     failure.
-* Thin provisioning - Only consume the space you need in a storage pool.
-* Data reduction - Transparent inline data compression to reduce the amount of
+* Thin provisioning - only consume the space you need in a storage pool.
+* Data reduction - transparent inline data compression to reduce the amount of
     storage used in a backing store as well as reducing the network bandwidth
     requirements for replication.
 * Flexible configuration - all features can be enabled per volume, using PVC
@@ -46,7 +49,7 @@ additional capacity, features and support plans contact sales@storageos.com.
 * Multi-tenancy - fully supports standard Namespace and RBAC methods.
 * Observability & instrumentation - Log streams for observability and
     Prometheus support for instrumentation.
-* Deployment flexibility - Scale up or scale out storage based on application
+* Deployment flexibility - scale up or scale out storage based on application
     requirements. Works with any infrastructure – on-premises, VM, bare metal
     or cloud.
 
@@ -234,7 +237,7 @@ Operator chart and their default values.
 Parameter | Description | Default
 --------- | ----------- | -------
 `operator.image.repository` | StorageOS Operator container image repository | `storageos/cluster-operator`
-`operator.image.tag` | StorageOS Operator container image tag | `v2.3.3`
+`operator.image.tag` | StorageOS Operator container image tag | `v2.4.0`
 `operator.image.pullPolicy` | StorageOS Operator container image pull policy | `IfNotPresent`
 `podSecurityPolicy.enabled` | If true, create & use PodSecurityPolicy resources | `false`
 `podSecurityPolicy.annotations` | Specify pod annotations in the pod security policy | `{}`
