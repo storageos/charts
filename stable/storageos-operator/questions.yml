@@ -101,7 +101,7 @@ questions:
   - variable: cluster.kvBackend.address
     required: true
     default: ""
-    description: "List of etcd targets, in the form ip[:port], separated by
+    description: "List of etcd targets, in the form ip:port, separated by
     commas. Prefer multiple direct endpoints over a single load-balanced
     endpoint. See https://docs.storageos.com/docs/prerequisites/etcd/ for more
     information."
