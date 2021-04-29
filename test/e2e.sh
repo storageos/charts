@@ -181,7 +181,7 @@ main() {
 
     echo "Add git remote k8s ${CHARTS_REPO}"
     git remote add storageos "${CHARTS_REPO}" &> /dev/null || true
-    git fetch --prune --unshallow storageos master
+    git fetch storageos master
     echo
 
     # Validate manifests with kubeval.
