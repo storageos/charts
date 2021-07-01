@@ -27,7 +27,7 @@ podSecurityPolicy:
 operator:
   image:
     repository: storageos/cluster-operator
-    tag: v2.3.1
+    tag: v2.4.0
     pullPolicy: IfNotPresent
 
 # cluster-specific configuation parameters.
@@ -167,6 +167,8 @@ cleanup:
         - "configmap"
         - "storageos-scheduler-config"
         - "storageos-scheduler-policy"
+        - "storageos-api-manager-lease"
+        - "storageos-node-config"
     - name: serviceaccount
       command:
         - "serviceaccount"
@@ -175,14 +177,6 @@ cleanup:
         - "storageos-csi-helper-sa"
         - "storageos-scheduler-sa"
         - "storageos-api-manager-sa"
-    - name: role
-      command:
-        - "role"
-        - "storageos:key-management"
-    - name: rolebinding
-      command:
-        - "rolebinding"
-        - "storageos:key-management"
     - name: secret
       command:
         - "secret"
@@ -195,6 +189,7 @@ cleanup:
       command:
         - "service"
         - "storageos-api-manager-metrics"
+        - "storageos-webhook"
     - name: clusterrole
       command:
         - "clusterrole"
@@ -207,6 +202,7 @@ cleanup:
         - "storageos:api-manager"
         - "storageos:nfs-provisioner"
         - "storageos:csi-resizer"
+        - "storageos:key-management"
     - name: clusterrolebinding
       command:
         - "clusterrolebinding"
@@ -220,6 +216,7 @@ cleanup:
         - "storageos:api-manager"
         - "storageos:nfs-provisioner"
         - "storageos:csi-resizer"
+        - "storageos:key-management"
     - name: storageclass
       command:
         - "storageclass"

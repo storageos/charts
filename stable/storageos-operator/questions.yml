@@ -38,7 +38,7 @@ questions:
     type: string
     label: StorageOS Operator Image Name
   - variable: operator.image.tag
-    default: "v2.3.1"
+    default: "v2.4.0"
     description: "StorageOS Operator image tag"
     type: string
     label: StorageOS Operator Image Tag
@@ -72,7 +72,7 @@ questions:
     type: string
     label: StorageOS Node Container Image Name
   - variable: cluster.images.node.tag
-    default: "v2.3.1"
+    default: "v2.4.0"
     description: "StorageOS Node container image tag"
     type: string
     label: StorageOS Node Container Image Tag
@@ -101,7 +101,7 @@ questions:
   - variable: cluster.kvBackend.address
     required: true
     default: ""
-    description: "List of etcd targets, in the form ip[:port], separated by
+    description: "List of etcd targets, in the form ip:port, separated by
     commas. Prefer multiple direct endpoints over a single load-balanced
     endpoint. See https://docs.storageos.com/docs/prerequisites/etcd/ for more
     information."

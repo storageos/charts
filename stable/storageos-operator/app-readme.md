@@ -31,10 +31,13 @@ additional capacity, features and support plans contact sales@storageos.com.
     changed blocks.
 * Multiple AccessModes - dynamically provision ReadWriteOnce or ReadWriteMany
     volumes.
+* Rapid Failover - quickly detects node failure and automates recovery actions
+    without administrator intervention.
+* Data Encryption - both in transit and at rest.
 * Scalability - disaggregated consensus means no single scheduling point of
     failure.
-* Thin provisioning - Only consume the space you need in a storage pool.
-* Data reduction - Transparent inline data compression to reduce the amount of
+* Thin provisioning - only consume the space you need in a storage pool.
+* Data reduction - transparent inline data compression to reduce the amount of
     storage used in a backing store as well as reducing the network bandwidth
     requirements for replication.
 * Flexible configuration - all features can be enabled per volume, using PVC
@@ -42,7 +45,7 @@ additional capacity, features and support plans contact sales@storageos.com.
 * Multi-tenancy - fully supports standard Namespace and RBAC methods.
 * Observability & instrumentation - Log streams for observability and
     Prometheus support for instrumentation.
-* Deployment flexibility - Scale up or scale out storage based on application
+* Deployment flexibility - scale up or scale out storage based on application
     requirements. Works with any infrastructure – on-premises, VM, bare metal
     or cloud.
 
