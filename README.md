@@ -1,8 +1,5 @@
 # StorageOS Helm Charts
 
-[![Build Status](https://travis-ci.org/storageos/charts.svg?branch=master)](https://travis-ci.org/storageos/charts)
-[![CircleCI](https://circleci.com/gh/storageos/charts.svg?style=svg)](https://circleci.com/gh/storageos/charts)
-
 This repository hosts the official StorageOS Helm Charts.
 
 ## Install
@@ -14,7 +11,7 @@ Get the latest [Helm release](https://github.com/helm/helm#install).
 Add the StorageOS chart repo to Helm:
 
 ```bash
-helm repo add storageos https://charts.storageos.com
+helm repo add storageos https://storageos.github.io/charts
 helm repo update
 ```
 
