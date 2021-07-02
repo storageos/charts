@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  storageos-operator:
+  - apiVersion: v2
+    appVersion: v2.4.0
+    created: "2021-07-02T11:58:44.130450785Z"
+    description: Cloud Native storage for containers
+    digest: 8ec43c146ddbfbb1a5650489e6935f70b855738d79e3510d43e26a2a675f5bf6
+    home: https://storageos.com
+    icon: https://docs.storageos.com/images/logo-helm.svg
+    keywords:
+    - storage
+    - block-storage
+    - volume
+    - operator
+    maintainers:
+    - email: simon.croome@storageos.com
+      name: croomes
+    - email: sunny.gogoi@storageos.com
+      name: darkowlzz
+    name: storageos-operator
+    sources:
+    - https://github.com/storageos
+    urls:
+    - https://github.com/storageos/charts/releases/download/storageos-operator-0.4.6/storageos-operator-0.4.6.tgz
+    version: 0.4.6
+generated: "2021-07-02T11:58:44.130455586Z"
